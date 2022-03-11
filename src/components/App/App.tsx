@@ -1,7 +1,12 @@
+import Layout from '../Layout/Layout';
 import './App.module.css';
 
 function App() {
-  return <main>app works</main>;
+  return (
+    <Layout>
+      <h2>Movie List</h2>
+    </Layout>
+  );
 }
 
 export default App;
