@@ -32,7 +32,7 @@ const Layout = ({ children }: LayoutProps) => {
           />
           {/* desktop */}
           <Navigation classNames='hidden tl:block tl:w-[25%] tl:max-w-[250px]' />
-          <main className='flex grow flex-col bg-gray-100'>{children}</main>
+          <main className='flex grow flex-col bg-gray-100 p-4'>{children}</main>
         </div>
       </div>
     </div>

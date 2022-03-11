@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
+import errorReducer, { errorInitialState } from '../state/error/errorReducer';
 import mobileNavReducer, {
   mobileNavInitialState,
 } from '../state/mobileNav/mobileNavReducer';
@@ -15,17 +16,28 @@ import {
 
 const useRootReducer = (): RootState => {
   const combinedDispatches = useRef<React.Dispatch<Action>[]>([]);
+
+  // mobile navigation
   const [mobileNav, mobileNavDispatch] = useReducer(
     mobileNavReducer,
     mobileNavInitialState
   );
+
+  // movies
   const [movies, moviesDispatch] = useReducer(
     moviesReducer,
     moviesInitialState
   );
 
+  // error
+  const [error, errorDispatch] = useReducer(errorReducer, errorInitialState);
+
   useEffect(() => {
-    combinedDispatches.current.push(mobileNavDispatch, moviesDispatch);
+    combinedDispatches.current.push(
+      mobileNavDispatch,
+      moviesDispatch,
+      errorDispatch
+    );
   }, []);
 
   const dispatchForLoop: DispatchForLoop = useCallback((action: Action) => {
@@ -49,6 +61,7 @@ const useRootReducer = (): RootState => {
     dispatch,
     mobileNav,
     movies,
+    error,
   };
 };
 

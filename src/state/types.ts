@@ -1,3 +1,4 @@
+import { ErrorState } from './error/errorReducer';
 import { MobileNavState } from './mobileNav/mobileNavReducer';
 import { MoviesState } from './movies/moviesReducer';
 
@@ -19,4 +20,5 @@ export interface RootState {
   dispatch: Dispatch;
   mobileNav: MobileNavState;
   movies: MoviesState;
+  error: ErrorState;
 }
