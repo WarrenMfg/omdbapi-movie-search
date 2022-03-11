@@ -31,6 +31,9 @@ const Navigation = ({ classNames, handleOnNavigate }: NavigationProps) => {
                   'bg-cyan-700': location.pathname.endsWith(navItem),
                 }
               )}
+              {...(location.pathname.endsWith(navItem) && {
+                'aria-current': 'page',
+              })}
             >
               {navItem}
             </Link>
