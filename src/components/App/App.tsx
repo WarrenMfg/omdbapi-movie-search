@@ -17,8 +17,10 @@ function App({ query }: AppProps) {
   const movies = useSelector(state => state.movies[query]?.Search);
 
   useEffect(() => {
-    dispatch(fetchMovies(query));
-  }, [query, dispatch]);
+    if (!movies) {
+      dispatch(fetchMovies(query));
+    }
+  }, [query, dispatch, movies]);
 
   if (errorMessage) return <Error errorMessage={errorMessage} />;
   if (!movies) return <p>'Loading...'</p>;
