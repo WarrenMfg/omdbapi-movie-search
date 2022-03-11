@@ -2,14 +2,20 @@ import { ReactNode, SyntheticEvent } from 'react';
 
 interface ButtonProps {
   handleOnClick: (e: SyntheticEvent) => void;
+  classNames?: string;
   ariaLabel?: string;
   children: ReactNode;
 }
 
-const Button = ({ handleOnClick, ariaLabel, children }: ButtonProps) => {
+const Button = ({
+  handleOnClick,
+  classNames,
+  ariaLabel,
+  children,
+}: ButtonProps) => {
   return (
     <button
-      className=''
+      {...(classNames && { classNames })}
       {...(ariaLabel && { 'aria-label': ariaLabel })}
       onClick={handleOnClick}
     >
