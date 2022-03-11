@@ -3,7 +3,6 @@ import cn from 'classnames';
 import useSelector from '../../hooks/useSelector';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
-import useMediaQueryList from '../../hooks/useMediaQueryList';
 import { CLOSED, setMobileNav } from '../../state/mobileNav/mobileNavActions';
 import useDispatch from '../../hooks/useDispatch';
 
@@ -14,7 +13,6 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const isMobileNavOpen = useSelector(state => state.mobileNav.isOpen);
   const dispatch = useDispatch();
-  useMediaQueryList('(min-width: 600px)', () => dispatch(setMobileNav(CLOSED)));
 
   return (
     <div className='bg-white'>
@@ -23,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
         <div className='relative flex grow tl:flex-row'>
           {/* mobile */}
           <Navigation
+            handleOnNavigate={() => dispatch(setMobileNav(CLOSED))}
             classNames={cn(
               'absolute h-full w-full transition-transform tl:hidden',
               {
