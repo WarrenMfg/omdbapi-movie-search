@@ -2,6 +2,9 @@ import { useCallback, useEffect, useReducer, useRef } from 'react';
 import mobileNavReducer, {
   mobileNavInitialState,
 } from '../state/mobileNav/mobileNavReducer';
+import moviesReducer, {
+  moviesInitialState,
+} from '../state/movies/moviesReducer';
 import {
   Action,
   Dispatch,
@@ -16,9 +19,13 @@ const useRootReducer = (): RootState => {
     mobileNavReducer,
     mobileNavInitialState
   );
+  const [movies, moviesDispatch] = useReducer(
+    moviesReducer,
+    moviesInitialState
+  );
 
   useEffect(() => {
-    combinedDispatches.current.push(mobileNavDispatch);
+    combinedDispatches.current.push(mobileNavDispatch, moviesDispatch);
   }, []);
 
   const dispatchForLoop: DispatchForLoop = useCallback((action: Action) => {
@@ -41,6 +48,7 @@ const useRootReducer = (): RootState => {
   return {
     dispatch,
     mobileNav,
+    movies,
   };
 };
 

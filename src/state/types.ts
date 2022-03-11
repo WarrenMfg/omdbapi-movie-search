@@ -1,4 +1,5 @@
-import { IMobileNavState } from './mobileNav/mobileNavReducer';
+import { MobileNavState } from './mobileNav/mobileNavReducer';
+import { MoviesState } from './movies/moviesReducer';
 
 export type Dispatch = (action: Thunk | Action, ...args: any[]) => void;
 
@@ -16,5 +17,6 @@ export interface Action {
 
 export interface RootState {
   dispatch: Dispatch;
-  mobileNav: IMobileNavState;
+  mobileNav: MobileNavState;
+  movies: MoviesState;
 }
