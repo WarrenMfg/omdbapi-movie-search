@@ -18,7 +18,7 @@ const Layout = ({ children }: LayoutProps) => {
     <div className='bg-white'>
       <div className='m-auto flex min-h-screen max-w-7xl flex-col'>
         <Header />
-        <div className='relative flex grow tl:flex-row'>
+        <div className='relative grid grow grid-cols-12'>
           {/* mobile */}
           <Navigation
             handleOnNavigate={() => dispatch(setMobileNav(CLOSED))}
@@ -31,8 +31,10 @@ const Layout = ({ children }: LayoutProps) => {
             )}
           />
           {/* desktop */}
-          <Navigation classNames='hidden tl:block tl:w-[25%] tl:max-w-[250px]' />
-          <main className='flex grow flex-col bg-gray-100 p-4'>{children}</main>
+          <Navigation classNames='hidden tl:block col-span-3 lg:col-span-2' />
+          <main className='col-span-12 grow bg-gray-100 p-4 tl:col-span-9 tl:col-start-4 lg:col-span-10 lg:col-start-3'>
+            {children}
+          </main>
         </div>
       </div>
     </div>
