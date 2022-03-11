@@ -1,7 +1,11 @@
 import './App.module.css';
 
-function App() {
-  return <h2>Movie List</h2>;
+interface AppProps {
+  query: string;
+}
+
+function App({ query }: AppProps) {
+  return <h2>Movie List: {query}</h2>;
 }
 
 export default App;

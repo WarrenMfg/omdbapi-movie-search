@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App/App';
+import { BrowserRouter } from 'react-router-dom';
+
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import GlobalStore from './components/GlobalStore/GlobalStore';
 import Layout from './components/Layout/Layout';
+import Routes from './components/Routes/Routes';
 
 import './index.css';
 
@@ -16,9 +18,11 @@ ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
       <GlobalStore>
-        <Layout>
-          <App />
-        </Layout>
+        <BrowserRouter>
+          <Layout>
+            <Routes />
+          </Layout>
+        </BrowserRouter>
       </GlobalStore>
     </ErrorBoundary>
   </React.StrictMode>,
