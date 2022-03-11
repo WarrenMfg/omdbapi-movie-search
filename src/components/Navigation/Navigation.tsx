@@ -1,6 +1,12 @@
-const Navigation = () => {
+import cn from 'classnames';
+
+interface NavigationProps {
+  classNames?: string;
+}
+
+const Navigation = ({ classNames }: NavigationProps) => {
   return (
-    <nav className='min-h-full bg-sky-900 text-cyan-100'>
+    <nav className={cn('min-h-full bg-sky-900 text-cyan-100', classNames)}>
       <ul>
         <li>Menu 1</li>
         <li>Menu 2</li>
