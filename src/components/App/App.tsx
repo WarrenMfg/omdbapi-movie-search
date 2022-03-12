@@ -4,6 +4,7 @@ import { fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
 import Error from '../Error/Error';
+import Spinner from '../Spinner/Spinner';
 
 import './App.module.css';
 
@@ -23,7 +24,7 @@ function App({ query }: AppProps) {
   }, [query, dispatch, movies]);
 
   if (errorMessage) return <Error errorMessage={errorMessage} />;
-  if (!movies) return <p>'Loading...'</p>;
+  if (!movies) return <Spinner />;
   return (
     <>
       <h2>Movie List: {query}</h2>
