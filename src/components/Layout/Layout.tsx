@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import cn from 'classnames';
 import useSelector from '../../hooks/useSelector';
 import Header from '../Header/Header';
@@ -8,6 +8,7 @@ import {
   setMobileNav,
 } from '../../state/mobileNav/mobileNavActions';
 import useDispatch from '../../hooks/useDispatch';
+import useBodyLock from '../../hooks/useBodyLock';
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,15 +16,8 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const isMobileNavOpen = useSelector(state => state.mobileNav.isOpen);
+  useBodyLock(isMobileNavOpen);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (isMobileNavOpen) {
-      document.body.style.overflowY = 'hidden';
-    } else {
-      document.body.removeAttribute('style');
-    }
-  }, [isMobileNavOpen]);
 
   return (
     <div className='bg-white'>
