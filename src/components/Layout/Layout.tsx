@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import cn from 'classnames';
 import useSelector from '../../hooks/useSelector';
 import Header from '../Header/Header';
@@ -14,6 +14,14 @@ const Layout = ({ children }: LayoutProps) => {
   const isMobileNavOpen = useSelector(state => state.mobileNav.isOpen);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (isMobileNavOpen) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.removeAttribute('style');
+    }
+  }, [isMobileNavOpen]);
+
   return (
     <div className='bg-white'>
       <div className='m-auto flex min-h-screen max-w-7xl flex-col'>
@@ -22,7 +30,10 @@ const Layout = ({ children }: LayoutProps) => {
           {/* mobile */}
           <Navigation
             tabIndex={isMobileNavOpen ? 0 : -1}
-            handleOnNavigate={() => dispatch(setMobileNav(CLOSED))}
+            handleOnNavigate={() => {
+              dispatch(setMobileNav(CLOSED));
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             classNames={cn(
               'absolute h-full w-full transition-transform tl:hidden',
               {
