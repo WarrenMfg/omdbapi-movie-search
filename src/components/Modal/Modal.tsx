@@ -61,7 +61,8 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
     >
       <div
         role='dialog'
-        aria-labelledby='movie-details'
+        id='movie-details'
+        title='Movie Details'
         aria-modal='true'
         className='flex h-full flex-col bg-white p-8 text-cyan-700 tl:mx-auto tl:max-w-2xl tl:rounded-lg'
       >
