@@ -39,7 +39,7 @@ const App = ({ query }: AppProps) => {
   if (!movies && !isFavorites) return <Spinner />;
   return (
     <>
-      <AppHeader {...{ query, isFavorites }} />
+      <AppHeading {...{ query, isFavorites }} />
       <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
         {movies.map((movie, i) => (
           <Card
@@ -56,12 +56,12 @@ const App = ({ query }: AppProps) => {
   );
 };
 
-interface AppHeaderProps {
+interface AppHeadingProps {
   query: string;
   isFavorites: boolean;
 }
 
-const AppHeader = ({ query, isFavorites }: AppHeaderProps) => (
+const AppHeading = ({ query, isFavorites }: AppHeadingProps) => (
   <h2 className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'>
     {isFavorites ? (
       'Favorites'
