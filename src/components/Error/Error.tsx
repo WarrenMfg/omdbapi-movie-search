@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { BUTTON_STYLE } from '../../utils/constants';
 
 interface ErrorProps {
   errorMessage: string;
@@ -15,7 +16,7 @@ const Error = ({ errorMessage }: ErrorProps) => {
       <Link
         to={location.pathname}
         reloadDocument={true}
-        className='inline-block rounded-lg bg-sky-900 py-4 px-8 text-cyan-100 transition-colors hover:bg-cyan-700'
+        className={BUTTON_STYLE}
       >
         Refresh
       </Link>

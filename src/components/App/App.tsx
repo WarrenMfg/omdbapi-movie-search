@@ -1,11 +1,14 @@
-import { SyntheticEvent, useEffect } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 
 import { fetchMovieDetails, fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
+import { Movie, MovieDetails } from '../../state/movies/moviesReducer';
+import { FAVORITES } from '../../utils/constants';
 import Card from '../Card/Card';
 import Error from '../Error/Error';
-import { FAVORITES } from '../Routes/Routes';
+import Modal from '../Modal/Modal';
+import MovieModalContent from '../MovieModalContent/MovieModalContent';
 import Spinner from '../Spinner/Spinner';
 
 import './App.module.css';
@@ -15,6 +18,7 @@ interface AppProps {
 }
 
 const App = ({ query }: AppProps) => {
+  const [moviesIdxForModal, setMoviesIdxForModal] = useState(-1);
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
   const movies = useSelector(state => state.movies[query]?.results);
@@ -30,9 +34,13 @@ const App = ({ query }: AppProps) => {
     const target = e.target as HTMLElement;
     const id = target.closest('button')?.id;
     if (!id) return;
-    const movie = movies.find(movie => movie.imdbID === id);
-    if (!movie || movie.hasDetails) return;
-    dispatch(fetchMovieDetails(query, id));
+    const [idx, imdbID] = id.split('-');
+    const movie = movies.find(movie => movie.imdbID === imdbID);
+    if (!movie) return;
+    if (!movie.hasDetails) {
+      dispatch(fetchMovieDetails(query, imdbID));
+    }
+    setMoviesIdxForModal(+idx);
   };
 
   if (errorMessage) return <Error errorMessage={errorMessage} />;
@@ -40,18 +48,16 @@ const App = ({ query }: AppProps) => {
   return (
     <>
       <AppHeading {...{ query, isFavorites }} />
-      <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
-        {movies.map((movie, i) => (
-          <Card
-            key={`${i}-${movie.Title}`}
-            handleOpenCard={handleOpenCard}
-            title={movie.Title}
-            year={movie.Year}
-            image={movie.Poster}
-            imdbID={movie.imdbID}
-          />
-        ))}
-      </ul>
+      <MoviesList {...{ movies, handleOpenCard }} />
+      <Modal
+        isOpen={moviesIdxForModal > -1}
+        closeModal={() => setMoviesIdxForModal(-1)}
+      >
+        <MovieModalContent
+          movie={movies[moviesIdxForModal] as MovieDetails}
+          closeModal={() => setMoviesIdxForModal(-1)}
+        />
+      </Modal>
     </>
   );
 };
@@ -71,6 +77,27 @@ const AppHeading = ({ query, isFavorites }: AppHeadingProps) => (
       </span>
     )}
   </h2>
+);
+
+interface MoviesListProps {
+  movies: (Movie | MovieDetails)[];
+  handleOpenCard: (e: SyntheticEvent) => void;
+}
+
+const MoviesList = ({ movies, handleOpenCard }: MoviesListProps) => (
+  <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
+    {movies.map((movie, i) => (
+      <Card
+        key={`${i}-${movie.Title}`}
+        handleOpenCard={handleOpenCard}
+        title={movie.Title}
+        isFavorite={!!movie.isFavorite}
+        year={movie.Year}
+        image={movie.Poster}
+        id={`${i}-${movie.imdbID}`}
+      />
+    ))}
+  </ul>
 );
 
 export default App;

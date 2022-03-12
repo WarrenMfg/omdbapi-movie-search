@@ -5,23 +5,31 @@ import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 interface CardProps {
   handleOpenCard: (e: SyntheticEvent) => void;
   title: string;
+  isFavorite: boolean;
   year: string;
   image: string;
-  imdbID: string;
+  id: string;
 }
 
-const Card = ({ handleOpenCard, title, year, image, imdbID }: CardProps) => {
+const Card = ({
+  handleOpenCard,
+  title,
+  isFavorite,
+  year,
+  image,
+  id,
+}: CardProps) => {
   return (
     <li className='h-full w-full max-w-xs rounded-lg shadow-lg tl:max-w-none'>
       <Button
         className='h-full w-full rounded-lg bg-white p-4 text-left font-bold text-cyan-700'
         handleOnClick={handleOpenCard}
         ariaLabel={`Open modal for ${title}`}
-        id={imdbID}
+        id={id}
       >
         <div className='flex items-center justify-between'>
           <h3 className='text-md line-clamp-1'>{title}</h3>
-          <FavoriteIcon />
+          <FavoriteIcon isFavorite={isFavorite} />
         </div>
         <p className='mb-4 text-xs'>{year}</p>
         <div className='relative grid place-items-center overflow-hidden rounded-lg border bg-cyan-100 after:block after:pb-[100%] after:content-[""]'>
