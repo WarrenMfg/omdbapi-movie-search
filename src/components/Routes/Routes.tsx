@@ -1,7 +1,6 @@
 import { useRoutes, RouteObject, Navigate } from 'react-router-dom';
+import { FAVORITES } from '../../utils/constants';
 import App from '../App/App';
-
-export const FAVORITES = 'favorites';
 
 export const navItems = [
   'super',
