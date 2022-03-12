@@ -1,5 +1,6 @@
 import { SyntheticEvent } from 'react';
 import Button from '../Button/Button';
+import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 
 interface CardProps {
   handleOpenCard: (e: SyntheticEvent) => void;
@@ -18,7 +19,10 @@ const Card = ({ handleOpenCard, title, year, image, imdbID }: CardProps) => {
         ariaLabel={`Open modal for ${title}`}
         id={imdbID}
       >
-        <h3 className='text-md line-clamp-1'>{title}</h3>
+        <div className='flex items-center justify-between'>
+          <h3 className='text-md line-clamp-1'>{title}</h3>
+          <FavoriteIcon />
+        </div>
         <p className='mb-4 text-xs'>{year}</p>
         <div className='relative grid place-items-center overflow-hidden rounded-lg border bg-cyan-100 after:block after:pb-[100%] after:content-[""]'>
           <img

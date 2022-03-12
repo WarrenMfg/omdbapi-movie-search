@@ -1,4 +1,5 @@
 import { FAVORITES } from '../../components/Routes/Routes';
+import getLocalStorage from '../../utils/getLocalStorage';
 import updateMovieResults from '../../utils/updateMovieResults';
 import { Action } from '../types';
 import { SET_MOVIE, SET_MOVIES } from './moviesActions';
@@ -10,6 +11,7 @@ export interface Movie {
   Type: string;
   Poster: string;
   hasDetails: boolean;
+  isFavorite: boolean;
 }
 
 export interface MovieDetails extends Movie {
@@ -27,7 +29,7 @@ export interface MovieDetails extends Movie {
 
 export interface QueryResults {
   results: (Movie | MovieDetails)[];
-  totalResults: number;
+  totalResults?: number;
 }
 
 export interface MoviesState {
@@ -36,8 +38,7 @@ export interface MoviesState {
 
 export const moviesInitialState: MoviesState = {
   [FAVORITES]: {
-    results: [],
-    totalResults: 0,
+    results: getLocalStorage(FAVORITES, []),
   },
 };
 
@@ -47,16 +48,25 @@ const moviesReducer = (
 ): MoviesState => {
   switch (action.type) {
     case SET_MOVIES: {
+      const faveMap = state[FAVORITES].results.reduce((acc, cur) => {
+        acc[cur.imdbID] = cur;
+        return acc;
+      }, {} as Record<string, Movie | MovieDetails>);
+
       const results = action.payload.data.Search.map((movie: Movie) => ({
         ...movie,
         hasDetails: false,
-      }));
+        isFavorite: !!faveMap[movie.imdbID],
+      })) as Movie[];
+
       const totalResults = +action.payload.data.totalResults;
+
       return {
         ...state,
         [action.payload.query]: { totalResults, results },
       };
     }
+
     case SET_MOVIE: {
       const { query, imdbID, data } = action.payload;
       const updatedMovieResults = updateMovieResults(
@@ -73,6 +83,7 @@ const moviesReducer = (
         },
       };
     }
+
     default:
       return state;
   }

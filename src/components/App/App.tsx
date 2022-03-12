@@ -64,7 +64,7 @@ interface AppHeadingProps {
 const AppHeading = ({ query, isFavorites }: AppHeadingProps) => (
   <h2 className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'>
     {isFavorites ? (
-      'Favorites'
+      <span className='capitalize'>{FAVORITES}</span>
     ) : (
       <span>
         Movie List<span className='capitalize tl:hidden'>: "{query}"</span>
