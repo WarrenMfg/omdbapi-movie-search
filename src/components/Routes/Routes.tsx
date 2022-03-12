@@ -1,6 +1,8 @@
 import { useRoutes, RouteObject, Navigate } from 'react-router-dom';
 import App from '../App/App';
 
+export const FAVORITES = 'favorites';
+
 export const navItems = [
   'super',
   'cool',
@@ -8,7 +10,7 @@ export const navItems = [
   'sweet',
   'awesome',
   'dude',
-  'favorites',
+  FAVORITES,
 ];
 
 const routes: RouteObject[] = ['', ...navItems].reduce(

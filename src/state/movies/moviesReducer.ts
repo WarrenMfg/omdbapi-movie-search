@@ -1,3 +1,4 @@
+import { FAVORITES } from '../../components/Routes/Routes';
 import updateMovieResults from '../../utils/updateMovieResults';
 import { Action } from '../types';
 import { SET_MOVIE, SET_MOVIES } from './moviesActions';
@@ -26,14 +27,19 @@ export interface MovieDetails extends Movie {
 
 export interface QueryResults {
   results: (Movie | MovieDetails)[];
-  totalResults: string;
+  totalResults: number;
 }
 
 export interface MoviesState {
   [query: string]: QueryResults;
 }
 
-export const moviesInitialState: MoviesState = {};
+export const moviesInitialState: MoviesState = {
+  [FAVORITES]: {
+    results: [],
+    totalResults: 0,
+  },
+};
 
 const moviesReducer = (
   state = moviesInitialState,

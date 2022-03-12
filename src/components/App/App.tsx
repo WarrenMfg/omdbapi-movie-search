@@ -5,6 +5,7 @@ import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
 import Card from '../Card/Card';
 import Error from '../Error/Error';
+import { FAVORITES } from '../Routes/Routes';
 import Spinner from '../Spinner/Spinner';
 
 import './App.module.css';
@@ -13,16 +14,17 @@ interface AppProps {
   query: string;
 }
 
-function App({ query }: AppProps) {
+const App = ({ query }: AppProps) => {
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
   const movies = useSelector(state => state.movies[query]?.results);
+  const isFavorites = query === FAVORITES;
 
   useEffect(() => {
-    if (!movies) {
+    if (!movies && !isFavorites) {
       dispatch(fetchMovies(query));
     }
-  }, [query, dispatch, movies]);
+  }, [query, dispatch, movies, isFavorites]);
 
   const handleOpenCard = (e: SyntheticEvent) => {
     const target = e.target as HTMLElement;
@@ -34,12 +36,10 @@ function App({ query }: AppProps) {
   };
 
   if (errorMessage) return <Error errorMessage={errorMessage} />;
-  if (!movies) return <Spinner />;
+  if (!movies && !isFavorites) return <Spinner />;
   return (
     <>
-      <h2 className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'>
-        Movie List<span className='capitalize tl:hidden'>: "{query}"</span>
-      </h2>
+      <AppHeader {...{ query, isFavorites }} />
       <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
         {movies.map((movie, i) => (
           <Card
@@ -54,6 +54,23 @@ function App({ query }: AppProps) {
       </ul>
     </>
   );
+};
+
+interface AppHeaderProps {
+  query: string;
+  isFavorites: boolean;
 }
+
+const AppHeader = ({ query, isFavorites }: AppHeaderProps) => (
+  <h2 className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'>
+    {isFavorites ? (
+      'Favorites'
+    ) : (
+      <span>
+        Movie List<span className='capitalize tl:hidden'>: "{query}"</span>
+      </span>
+    )}
+  </h2>
+);
 
 export default App;
