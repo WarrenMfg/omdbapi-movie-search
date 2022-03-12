@@ -1,8 +1,8 @@
 import { ReactNode, useEffect } from 'react';
 import useRootReducer from '../../hooks/useRootReducer';
 import Store from '../../state/store';
+import { FAVORITES } from '../../utils/constants';
 import setLocalStorage from '../../utils/setLocalStorage';
-import { FAVORITES } from '../Routes/Routes';
 
 interface GlobalStoreProps {
   children: ReactNode;
