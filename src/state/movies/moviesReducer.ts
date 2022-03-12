@@ -1,4 +1,4 @@
-import { FAVORITES } from '../../components/Routes/Routes';
+import { FAVORITES } from '../../utils/constants';
 import getLocalStorage from '../../utils/getLocalStorage';
 import updateMovieResults from '../../utils/updateMovieResults';
 import { Action } from '../types';
