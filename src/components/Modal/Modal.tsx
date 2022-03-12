@@ -41,13 +41,6 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
     if (target.id === 'modal-background') closeModal();
   };
 
-  // const handleOnTransitionEnd = () => {
-  //   if (modalRef.current?.classList.contains('opacity-0')) {
-  //     // modalRef.current?.classList.add('hidden');
-  //     modalRef.current?.classList.remove('block');
-  //   }
-  // };
-
   return (
     <div
       className={cn(
@@ -56,7 +49,6 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
       onClick={handleCloseModal}
       id='modal-background'
       role='presentation'
-      // onTransitionEnd={handleOnTransitionEnd}
       ref={modalRef}
     >
       <div
