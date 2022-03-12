@@ -3,7 +3,10 @@ import cn from 'classnames';
 import useSelector from '../../hooks/useSelector';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
-import { CLOSED, setMobileNav } from '../../state/mobileNav/mobileNavActions';
+import {
+  CLOSE_MOBILE_NAV,
+  setMobileNav,
+} from '../../state/mobileNav/mobileNavActions';
 import useDispatch from '../../hooks/useDispatch';
 
 interface LayoutProps {
@@ -31,7 +34,7 @@ const Layout = ({ children }: LayoutProps) => {
           <Navigation
             tabIndex={isMobileNavOpen ? 0 : -1}
             handleOnNavigate={() => {
-              dispatch(setMobileNav(CLOSED));
+              dispatch(setMobileNav(CLOSE_MOBILE_NAV));
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             classNames={cn(

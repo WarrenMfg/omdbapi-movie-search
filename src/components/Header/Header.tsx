@@ -1,8 +1,8 @@
 import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
 import {
-  CLOSED,
-  OPEN,
+  CLOSE_MOBILE_NAV,
+  OPEN_MOBILE_NAV,
   setMobileNav,
 } from '../../state/mobileNav/mobileNavActions';
 import Button from '../Button/Button';
@@ -13,7 +13,9 @@ const Header = () => {
   const isMobileNavOpen = useSelector<boolean>(state => state.mobileNav.isOpen);
 
   const handleOnClick = () =>
-    dispatch(setMobileNav(isMobileNavOpen ? CLOSED : OPEN));
+    dispatch(
+      setMobileNav(isMobileNavOpen ? CLOSE_MOBILE_NAV : OPEN_MOBILE_NAV)
+    );
 
   return (
     <header className='sticky top-0 z-20 flex items-center text-center tl:text-left'>
