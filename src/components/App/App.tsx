@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect } from 'react';
 
-import { fetchMovies } from '../../api/api';
+import { fetchMovieDetails, fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
 import Card from '../Card/Card';
@@ -16,7 +16,8 @@ interface AppProps {
 function App({ query }: AppProps) {
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
-  const movies = useSelector(state => state.movies[query]?.Search);
+  const movies = useSelector(state => state.movies[query]?.results);
+  console.log('App rendered');
 
   useEffect(() => {
     if (!movies) {
@@ -25,7 +26,12 @@ function App({ query }: AppProps) {
   }, [query, dispatch, movies]);
 
   const handleOpenCard = (e: SyntheticEvent) => {
-    console.log(e);
+    const target = e.target as HTMLElement;
+    const id = target.closest('button')?.id;
+    if (!id) return;
+    const movie = movies.find(movie => movie.imdbID === id);
+    if (!movie || movie.hasDetails) return;
+    dispatch(fetchMovieDetails(query, id));
   };
 
   if (errorMessage) return <Error errorMessage={errorMessage} />;
@@ -43,6 +49,7 @@ function App({ query }: AppProps) {
             title={movie.Title}
             year={movie.Year}
             image={movie.Poster}
+            imdbID={movie.imdbID}
           />
         ))}
       </ul>

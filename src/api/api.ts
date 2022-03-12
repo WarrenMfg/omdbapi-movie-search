@@ -1,5 +1,5 @@
 import { setError } from '../state/error/errorActions';
-import { setMovies } from '../state/movies/moviesActions';
+import { setMovie, setMovies } from '../state/movies/moviesActions';
 import { DispatchForLoop, Thunk } from '../state/types';
 
 const baseUrl = 'http://www.omdbapi.com/';
@@ -20,6 +20,19 @@ export const fetchMovies =
       );
       const data = await handleResponse(res);
       dispatch(setMovies(query, data));
+    } catch (error) {
+      dispatch(setError((error as Error).message));
+    }
+  };
+
+export const fetchMovieDetails =
+  (query: string, imdbID: string) => async (dispatch: DispatchForLoop) => {
+    try {
+      const res = await fetch(
+        `${baseUrl}?i=${imdbID}&plot=full&type=movie&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
+      );
+      const data = await handleResponse(res);
+      dispatch(setMovie(query, imdbID, data));
     } catch (error) {
       dispatch(setError((error as Error).message));
     }
