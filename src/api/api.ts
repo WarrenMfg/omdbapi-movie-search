@@ -5,7 +5,7 @@ import { DispatchForLoop, Thunk } from '../state/types';
 const baseUrl = 'http://www.omdbapi.com/';
 
 const handleResponse = async (res: Response) => {
-  if (!res.ok) throw new Error('Oops! Data could not be fetched.');
+  if (!res.ok) throw new Error('Data could not be fetched.');
   const data = await res.json();
   if (data.Response !== 'True') throw new Error(data.Error);
   return data;
