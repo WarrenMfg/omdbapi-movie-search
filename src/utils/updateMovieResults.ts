@@ -3,7 +3,7 @@ import {
   MovieDetails,
   MoviesState,
 } from '../state/movies/moviesReducer';
-import getProperties from './getProperties';
+import reduceObject from './reduceObject';
 
 const movieDetailsProperties = [
   'Rated',
@@ -24,11 +24,11 @@ const updateMovieResults = (
   imdbID: string,
   data: Record<string, string>
 ) => {
-  const movieDetails = getProperties(data, movieDetailsProperties);
+  const movieDetails = reduceObject(data, movieDetailsProperties);
   const movieIdx = state[query].results.findIndex(
     (movie: Movie) => movie.imdbID === imdbID
   );
-  if (movieIdx < 0) return state;
+  if (movieIdx < 0) return state[query].results;
   const updatedMovie = {
     ...state[query].results[movieIdx],
     ...movieDetails,
