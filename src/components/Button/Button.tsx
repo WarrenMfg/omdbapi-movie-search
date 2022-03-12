@@ -1,7 +1,8 @@
 import { ReactNode, SyntheticEvent } from 'react';
 
 interface ButtonProps {
-  handleOnClick: (e: SyntheticEvent) => void;
+  handleOnClick?: (e: SyntheticEvent) => void;
+  id?: string;
   className?: string;
   ariaLabel?: string;
   children: ReactNode;
@@ -12,12 +13,14 @@ const Button = ({
   className,
   ariaLabel,
   children,
+  id,
 }: ButtonProps) => {
   return (
     <button
+      {...(handleOnClick && { onClick: handleOnClick })}
+      {...(id && { id })}
       {...(className && { className })}
       {...(ariaLabel && { 'aria-label': ariaLabel })}
-      onClick={handleOnClick}
     >
       {children}
     </button>
