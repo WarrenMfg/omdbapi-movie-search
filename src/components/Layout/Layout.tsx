@@ -21,7 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className='bg-white'>
-      <div className='m-auto flex min-h-screen max-w-7xl flex-col'>
+      <div className='m-auto flex min-h-screen max-w-7xl flex-col drop-shadow-2xl'>
         <Header />
         <div className='relative grid grow grid-cols-12'>
           {/* mobile */}

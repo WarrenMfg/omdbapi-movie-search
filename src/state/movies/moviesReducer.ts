@@ -1,8 +1,13 @@
 import { FAVORITES } from '../../utils/constants';
 import getLocalStorage from '../../utils/getLocalStorage';
-import updateMovieResults from '../../utils/updateMovieResults';
+import updateMovieWithDetails from '../../utils/updateMovieWithDetails';
 import { Action } from '../types';
-import { SET_MOVIE, SET_MOVIES } from './moviesActions';
+import {
+  ADD_FAVORITE_MOVIE,
+  SET_MOVIE_WITH_DETAILS,
+  SET_MOVIES,
+  REMOVE_FAVORITE_MOVIE,
+} from './moviesActions';
 
 export interface Movie {
   Title: string;
@@ -67,9 +72,9 @@ const moviesReducer = (
       };
     }
 
-    case SET_MOVIE: {
+    case SET_MOVIE_WITH_DETAILS: {
       const { query, imdbID, data } = action.payload;
-      const updatedMovieResults = updateMovieResults(
+      const updatedMovieResults = updateMovieWithDetails(
         state,
         query,
         imdbID,
@@ -80,6 +85,56 @@ const moviesReducer = (
         [query]: {
           ...state[query],
           results: updatedMovieResults,
+        },
+      };
+    }
+
+    case ADD_FAVORITE_MOVIE: {
+      const { query, imdbID } = action.payload;
+      const movieIdx = state[query].results.findIndex(
+        movie => movie.imdbID === imdbID
+      );
+      if (movieIdx < 0) return state;
+      const updatedMovieResults = [...state[query].results];
+      updatedMovieResults[movieIdx] = {
+        ...updatedMovieResults[movieIdx],
+        isFavorite: true,
+      };
+      return {
+        ...state,
+        [query]: {
+          ...state[query],
+          results: updatedMovieResults,
+        },
+        [FAVORITES]: {
+          ...state[FAVORITES],
+          results: [...state[FAVORITES].results, updatedMovieResults[movieIdx]],
+        },
+      };
+    }
+
+    case REMOVE_FAVORITE_MOVIE: {
+      const { query, imdbID } = action.payload;
+      const movieIdx = state[query].results.findIndex(
+        movie => movie.imdbID === imdbID
+      );
+      if (movieIdx < 0) return state;
+      const updatedMovieResults = [...state[query].results];
+      updatedMovieResults[movieIdx] = {
+        ...updatedMovieResults[movieIdx],
+        isFavorite: false,
+      };
+      return {
+        ...state,
+        [query]: {
+          ...state[query],
+          results: updatedMovieResults,
+        },
+        [FAVORITES]: {
+          ...state[FAVORITES],
+          results: state[FAVORITES].results.filter(
+            movie => movie.imdbID !== imdbID
+          ),
         },
       };
     }

@@ -54,6 +54,7 @@ const App = ({ query }: AppProps) => {
         closeModal={() => setMoviesIdxForModal(-1)}
       >
         <MovieModalContent
+          query={query}
           movie={movies[moviesIdxForModal] as MovieDetails}
           closeModal={() => setMoviesIdxForModal(-1)}
         />
@@ -84,20 +85,25 @@ interface MoviesListProps {
   handleOpenCard: (e: SyntheticEvent) => void;
 }
 
-const MoviesList = ({ movies, handleOpenCard }: MoviesListProps) => (
-  <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
-    {movies.map((movie, i) => (
-      <Card
-        key={`${i}-${movie.Title}`}
-        handleOpenCard={handleOpenCard}
-        title={movie.Title}
-        isFavorite={!!movie.isFavorite}
-        year={movie.Year}
-        image={movie.Poster}
-        id={`${i}-${movie.imdbID}`}
-      />
-    ))}
-  </ul>
-);
+const MoviesList = ({ movies, handleOpenCard }: MoviesListProps) =>
+  movies.length ? (
+    <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
+      {movies.map((movie, i) => (
+        <Card
+          key={`${i}-${movie.Title}`}
+          handleOpenCard={handleOpenCard}
+          title={movie.Title}
+          isFavorite={!!movie.isFavorite}
+          year={movie.Year}
+          image={movie.Poster}
+          id={`${i}-${movie.imdbID}`}
+        />
+      ))}
+    </ul>
+  ) : (
+    <p className='text-center font-bold text-cyan-700'>
+      Pick some favorites! 🎉
+    </p>
+  );
 
 export default App;

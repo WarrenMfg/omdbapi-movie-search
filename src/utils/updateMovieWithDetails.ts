@@ -18,7 +18,7 @@ const movieDetailsProperties = [
   'Country',
 ];
 
-const updateMovieResults = (
+const updateMovieWithDetails = (
   state: MoviesState,
   query: string,
   imdbID: string,
@@ -39,4 +39,4 @@ const updateMovieResults = (
   return updatedMovieResults;
 };
 
-export default updateMovieResults;
+export default updateMovieWithDetails;

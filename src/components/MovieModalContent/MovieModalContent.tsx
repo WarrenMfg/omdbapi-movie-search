@@ -1,18 +1,31 @@
 import cn from 'classnames';
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import useDispatch from '../../hooks/useDispatch';
+import {
+  addFavoriteMovie,
+  removeFavoriteMovie,
+} from '../../state/movies/moviesActions';
 import { MovieDetails } from '../../state/movies/moviesReducer';
-import { BUTTON_STYLE } from '../../utils/constants';
+import { BUTTON_STYLE, FAVORITES } from '../../utils/constants';
 import Button from '../Button/Button';
 import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 import Spinner from '../Spinner/Spinner';
 
 interface MovieModalContentProps {
+  query: string;
   movie: MovieDetails;
   closeModal: () => void;
 }
 
-const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
+const MovieModalContent = ({
+  query,
+  movie,
+  closeModal,
+}: MovieModalContentProps) => {
   const buttonContainerRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (
@@ -20,7 +33,7 @@ const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
     )?.focus();
   }, []);
 
-  if (!movie?.hasDetails)
+  if (!movie?.hasDetails) {
     return (
       <>
         <Spinner />
@@ -33,14 +46,22 @@ const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
         </Button>
       </>
     );
+  }
+
+  const handleFavoriting = () => {
+    if (movie.isFavorite) {
+      dispatch(removeFavoriteMovie(query, movie.imdbID));
+      location.pathname.endsWith(FAVORITES) && closeModal();
+    } else {
+      dispatch(addFavoriteMovie(query, movie.imdbID));
+    }
+  };
 
   const favoriteStatus = movie.isFavorite ? 'Unfavorite' : 'Favorite';
   return (
     <>
       <div className='mb-6 flex items-center justify-between'>
-        <h2 className='text-lg font-bold' id='movie-details'>
-          Movie Details
-        </h2>
+        <h2 className='text-lg font-bold'>Movie Details</h2>
         <FavoriteIcon isFavorite={movie.isFavorite} />
       </div>
       <h3 className='text-md mb-2 font-bold'>{movie.Title}</h3>
@@ -56,7 +77,7 @@ const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
 
       <div className='mt-auto flex space-x-4' ref={buttonContainerRef}>
         <Button
-          handleOnClick={closeModal}
+          handleOnClick={handleFavoriting}
           ariaLabel={`${favoriteStatus} ${movie.Title}`}
           className={cn(BUTTON_STYLE, 'grow')}
         >
