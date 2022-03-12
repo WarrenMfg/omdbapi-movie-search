@@ -24,7 +24,7 @@ const Navigation = ({
   }, [location]);
 
   return (
-    <nav className={cn('z-10 min-h-full bg-sky-900 text-cyan-100', classNames)}>
+    <nav className={cn('z-10 h-full bg-sky-900 text-cyan-100', classNames)}>
       <ul className='sticky top-11'>
         {navItems.map(navItem => (
           <li key={navItem}>

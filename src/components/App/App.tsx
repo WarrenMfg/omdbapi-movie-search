@@ -17,7 +17,6 @@ function App({ query }: AppProps) {
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
   const movies = useSelector(state => state.movies[query]?.results);
-  console.log('App rendered');
 
   useEffect(() => {
     if (!movies) {
