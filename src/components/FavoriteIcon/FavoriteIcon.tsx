@@ -1,8 +1,14 @@
-const FavoriteIcon = () => {
+import cn from 'classnames';
+
+interface FavoriteIconProps {
+  isFavorite: boolean;
+}
+
+const FavoriteIcon = ({ isFavorite }: FavoriteIconProps) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      className='h-5 w-5'
+      className={cn('h-5 w-5', { 'fill-current': isFavorite })}
       fill='none'
       viewBox='0 0 24 24'
       stroke='currentColor'
