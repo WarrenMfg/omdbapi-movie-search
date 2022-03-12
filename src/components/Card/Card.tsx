@@ -10,7 +10,7 @@ interface CardProps {
 
 const Card = ({ handleOpenCard, title, year, image }: CardProps) => {
   return (
-    <li className='h-full w-full max-w-xs tl:max-w-none'>
+    <li className='h-full w-full max-w-xs shadow-lg tl:max-w-none'>
       <Button
         className='h-full w-full rounded-lg bg-white p-4 text-left font-bold text-cyan-700'
         handleOnClick={handleOpenCard}
