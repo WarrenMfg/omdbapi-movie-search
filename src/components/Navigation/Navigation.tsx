@@ -7,9 +7,14 @@ import { navItems } from '../Routes/Routes';
 interface NavigationProps {
   classNames?: string;
   handleOnNavigate?: () => void;
+  tabIndex?: number;
 }
 
-const Navigation = ({ classNames, handleOnNavigate }: NavigationProps) => {
+const Navigation = ({
+  classNames,
+  handleOnNavigate,
+  tabIndex,
+}: NavigationProps) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -24,6 +29,7 @@ const Navigation = ({ classNames, handleOnNavigate }: NavigationProps) => {
         {navItems.map(navItem => (
           <li key={navItem}>
             <Link
+              tabIndex={tabIndex}
               to={`/${navItem}`}
               className={cn(
                 'block py-2 px-4 capitalize transition-colors hover:bg-cyan-700',

@@ -21,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
         <div className='relative grid grow grid-cols-12'>
           {/* mobile */}
           <Navigation
+            tabIndex={isMobileNavOpen ? 0 : -1}
             handleOnNavigate={() => dispatch(setMobileNav(CLOSED))}
             classNames={cn(
               'absolute h-full w-full transition-transform tl:hidden',
