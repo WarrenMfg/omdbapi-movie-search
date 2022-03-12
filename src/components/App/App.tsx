@@ -32,7 +32,7 @@ function App({ query }: AppProps) {
   if (!movies) return <Spinner />;
   return (
     <>
-      <h2 className='mt-2 mb-6 text-lg font-bold text-cyan-700'>
+      <h2 className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'>
         Movie List<span className='capitalize tl:hidden'>: "{query}"</span>
       </h2>
       <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
