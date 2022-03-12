@@ -16,7 +16,7 @@ const Header = () => {
     dispatch(setMobileNav(isMobileNavOpen ? CLOSED : OPEN));
 
   return (
-    <header className='relative flex items-center text-center tl:text-left'>
+    <header className='sticky top-0 z-20 flex items-center text-center tl:text-left'>
       <div className='absolute left-4 flex items-center tl:hidden'>
         <Button
           handleOnClick={handleOnClick}
