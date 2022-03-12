@@ -28,11 +28,19 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
 
   useLayoutEffect(() => {
     if (isOpen) {
-      modalRef.current?.classList.add('translate-y-0', 'opacity-100');
-      modalRef.current?.classList.remove('-translate-y-full', 'opacity-0');
+      modalRef.current?.classList.add('translate-y-0');
+      modalRef.current?.classList.remove('-translate-y-full');
+      setTimeout(() => {
+        modalRef.current?.classList.add('opacity-100');
+        modalRef.current?.classList.remove('opacity-0');
+      }, 100);
     } else {
-      modalRef.current?.classList.add('-translate-y-full', 'opacity-0');
-      modalRef.current?.classList.remove('translate-y-0', 'opacity-100');
+      modalRef.current?.classList.add('opacity-0');
+      modalRef.current?.classList.remove('opacity-100');
+      setTimeout(() => {
+        modalRef.current?.classList.add('-translate-y-full');
+        modalRef.current?.classList.remove('translate-y-0');
+      }, 100);
     }
   }, [isOpen]);
 
@@ -44,7 +52,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-30 -translate-y-full bg-black/25 opacity-0 backdrop-blur transition-all duration-100 tl:p-8'
+        'fixed inset-0 z-30 -translate-y-full bg-black/25 opacity-0 backdrop-blur transition-all tl:p-8'
       )}
       onClick={handleCloseModal}
       id='modal-background'
@@ -57,7 +65,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
         aria-modal='true'
         className='flex h-full flex-col bg-white p-8 text-cyan-700 tl:mx-auto tl:max-w-2xl tl:rounded-lg'
       >
-        {children}
+        {isOpen && children}
       </div>
     </div>
   );
