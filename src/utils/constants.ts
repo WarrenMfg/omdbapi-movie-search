@@ -13,3 +13,14 @@ export const MOVIE_DETAILS_PROPERTIES = [
   'Language',
   'Country',
 ];
+
+export const MOVIE_PROPERTIES = [
+  'Title',
+  'Year',
+  'imdbID',
+  'Type',
+  'Poster',
+  'hasDetails',
+  'isFavorite',
+  'query',
+];

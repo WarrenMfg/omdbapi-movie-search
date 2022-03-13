@@ -6,12 +6,17 @@ import {
   addFavoriteMovie,
   removeFavoriteMovie,
 } from '../../state/movies/moviesActions';
-import { MovieDetails } from '../../state/movies/moviesReducer';
-import { BUTTON_STYLE, FAVORITES } from '../../utils/constants';
+import { Movie, MovieDetails } from '../../state/movies/moviesReducer';
+import {
+  BUTTON_STYLE,
+  FAVORITES,
+  MOVIE_PROPERTIES,
+} from '../../utils/constants';
 import {
   addFavoriteToLocalStorage,
   removeFavoriteFromLocalStorage,
 } from '../../utils/localStorage';
+import reduceObject from '../../utils/reduceObject';
 import Button from '../Button/Button';
 import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 import Spinner from '../Spinner/Spinner';
@@ -59,7 +64,7 @@ const MovieModalContent = ({
       removeFavoriteFromLocalStorage(movie);
     } else {
       dispatch(addFavoriteMovie(movie));
-      addFavoriteToLocalStorage(movie);
+      addFavoriteToLocalStorage(reduceObject(movie, MOVIE_PROPERTIES) as Movie);
     }
   };
 

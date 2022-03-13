@@ -29,7 +29,7 @@ export const fetchMovieDetails =
   (query: string, imdbID: string) => async (dispatch: DispatchForLoop) => {
     try {
       const res = await fetch(
-        `${baseUrl}?i=${imdbID}&type=movie&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
+        `${baseUrl}?i=${imdbID}&plot=full&type=movie&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
       );
       const data = await handleResponse(res);
       dispatch(setMovieWithDetails(query, imdbID, data));

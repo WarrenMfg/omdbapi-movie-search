@@ -1,23 +1,20 @@
-import { MovieDetails } from '../state/movies/moviesReducer';
+import { Movie, MovieDetails } from '../state/movies/moviesReducer';
 import { FAVORITES } from './constants';
 
-export const addFavoriteToLocalStorage = (movie: MovieDetails) => {
-  const favorites = getLocalStorage(FAVORITES, []);
-  favorites.push({ ...movie, isFavorite: true });
+export const addFavoriteToLocalStorage = (movie: Movie) => {
+  const favorites = getLocalStorage<Movie[]>(FAVORITES, []);
+  favorites.push({ ...movie, isFavorite: true, hasDetails: false });
   setLocalStorage(FAVORITES, favorites);
 };
 
 export const removeFavoriteFromLocalStorage = (movie: MovieDetails) => {
-  const favorites = getLocalStorage(FAVORITES, []).filter(
+  const favorites = getLocalStorage<Movie[]>(FAVORITES, []).filter(
     mov => mov.imdbID !== movie.imdbID
   );
   setLocalStorage(FAVORITES, favorites);
 };
 
-export const getLocalStorage = (
-  key: string,
-  defaultValue: any
-): MovieDetails[] => {
+export const getLocalStorage = <RT>(key: string, defaultValue: any): RT => {
   try {
     return JSON.parse(localStorage.getItem(key) || '');
   } catch (error) {
