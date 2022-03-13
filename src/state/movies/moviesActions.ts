@@ -13,7 +13,7 @@ export const setMovies = (query: string, data: QueryResults) => ({
   },
 });
 
-export const setMovie = (
+export const setMovieWithDetails = (
   query: string,
   imdbID: string,
   data: Record<string, string>

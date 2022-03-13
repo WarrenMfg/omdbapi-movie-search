@@ -1,5 +1,5 @@
 import { setError } from '../state/error/errorActions';
-import { setMovie, setMovies } from '../state/movies/moviesActions';
+import { setMovieWithDetails, setMovies } from '../state/movies/moviesActions';
 import { DispatchForLoop, Thunk } from '../state/types';
 
 const baseUrl = 'http://www.omdbapi.com/';
@@ -32,7 +32,7 @@ export const fetchMovieDetails =
         `${baseUrl}?i=${imdbID}&type=movie&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
       );
       const data = await handleResponse(res);
-      dispatch(setMovie(query, imdbID, data));
+      dispatch(setMovieWithDetails(query, imdbID, data));
     } catch (error) {
       dispatch(setError((error as Error).message));
     }

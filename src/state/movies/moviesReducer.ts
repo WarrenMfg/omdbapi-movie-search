@@ -1,6 +1,6 @@
-import { FAVORITES } from '../../utils/constants';
+import { FAVORITES, MOVIE_DETAILS_PROPERTIES } from '../../utils/constants';
 import { getLocalStorage } from '../../utils/localStorage';
-import updateMovieWithDetails from '../../utils/updateMovieWithDetails';
+import reduceObject from '../../utils/reduceObject';
 import { Action } from '../types';
 import {
   ADD_FAVORITE_MOVIE,
@@ -76,12 +76,17 @@ const moviesReducer = (
 
     case SET_MOVIE_WITH_DETAILS: {
       const { query, imdbID, data } = action.payload;
-      const updatedMovieResults = updateMovieWithDetails(
-        state,
-        query,
-        imdbID,
-        data
+      const movieIdx = state[query].results.findIndex(
+        (movie: Movie) => movie.imdbID === imdbID
       );
+      if (movieIdx < 0) return state;
+      const movieDetails = reduceObject(data, MOVIE_DETAILS_PROPERTIES);
+      const updatedMovieResults = [...state[query].results];
+      updatedMovieResults[movieIdx] = {
+        ...state[query].results[movieIdx],
+        ...movieDetails,
+        hasDetails: true,
+      };
       return {
         ...state,
         [query]: {
