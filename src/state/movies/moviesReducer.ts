@@ -54,7 +54,7 @@ const moviesReducer = (
 ): MoviesState => {
   switch (action.type) {
     case SET_MOVIES: {
-      const faveMap = state.favorites.results.reduce((acc, cur) => {
+      const favoritesMap = state.favorites.results.reduce((acc, cur) => {
         acc[cur.imdbID] = cur;
         return acc;
       }, {} as Record<string, Movie | MovieDetails>);
@@ -62,7 +62,7 @@ const moviesReducer = (
       const results = action.payload.data.Search.map((movie: Movie) => ({
         ...movie,
         hasDetails: false,
-        isFavorite: !!faveMap[movie.imdbID],
+        isFavorite: !!favoritesMap[movie.imdbID],
         query: action.payload.query,
       })) as Movie[];
 
@@ -122,22 +122,8 @@ const moviesReducer = (
 
     case REMOVE_FAVORITE_MOVIE: {
       const { query, imdbID } = action.payload;
-      const movieIdx = state[query].results.findIndex(
-        movie => movie.imdbID === imdbID
-      );
-      if (movieIdx < 0) return state;
-      const updatedMovieResults = [...state[query].results];
-      updatedMovieResults[movieIdx] = {
-        ...updatedMovieResults[movieIdx],
-        isFavorite: false,
-      };
-
-      return {
+      const restState = {
         ...state,
-        [query]: {
-          ...state[query],
-          results: updatedMovieResults,
-        },
         favorites: {
           ...state.favorites,
           results: state.favorites.results.filter(
@@ -145,6 +131,28 @@ const moviesReducer = (
           ),
         },
       };
+
+      if (state[query]) {
+        const movieIdx = state[query].results.findIndex(
+          movie => movie.imdbID === imdbID
+        );
+        if (movieIdx < 0) return restState;
+        const updatedMovieResults = [...state[query].results];
+        updatedMovieResults[movieIdx] = {
+          ...updatedMovieResults[movieIdx],
+          isFavorite: false,
+        };
+
+        return {
+          ...restState,
+          [query]: {
+            ...state[query],
+            results: updatedMovieResults,
+          },
+        };
+      }
+
+      return restState;
     }
 
     default:
