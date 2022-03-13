@@ -1,0 +1,8 @@
+{
+  "extends": ["react-app", "plugin:cypress/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "warn",
+    "cypress/no-unnecessary-waiting": "off"
+  }
+}
