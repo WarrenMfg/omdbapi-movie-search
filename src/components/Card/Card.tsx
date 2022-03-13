@@ -34,11 +34,11 @@ const Card = ({
           </div>
         </div>
         <p className='mb-4 text-xs'>{year}</p>
-        <div className='relative grid place-items-center overflow-hidden rounded-lg border bg-cyan-100 after:block after:pb-[100%] after:content-[""]'>
+        <div className='relative overflow-hidden rounded-lg border bg-cyan-100 after:block after:pb-[100%] after:content-[""]'>
           <img
             src={image}
             className='absolute h-full w-full object-cover object-center'
-            alt={`Movie poster for '${title}'`}
+            alt={`Movie poster for "${title}"`}
           />
         </div>
       </Button>

@@ -77,7 +77,7 @@ const MovieModalContent = ({
         <img
           className='m-auto rounded-lg'
           src={movie.Poster}
-          alt={`Movie poster for ${movie.Title}`}
+          alt={`Movie poster for "${movie.Title}"`}
         />
       </div>
 
