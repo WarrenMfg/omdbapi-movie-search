@@ -43,7 +43,7 @@ export interface MoviesState {
 }
 
 export const moviesInitialState: MoviesState = {
-  [FAVORITES]: {
+  favorites: {
     results: getLocalStorage(FAVORITES, []),
   },
 };
@@ -54,7 +54,7 @@ const moviesReducer = (
 ): MoviesState => {
   switch (action.type) {
     case SET_MOVIES: {
-      const faveMap = state[FAVORITES].results.reduce((acc, cur) => {
+      const faveMap = state.favorites.results.reduce((acc, cur) => {
         acc[cur.imdbID] = cur;
         return acc;
       }, {} as Record<string, Movie | MovieDetails>);
@@ -113,9 +113,9 @@ const moviesReducer = (
           ...state[query],
           results: updatedMovieResults,
         },
-        [FAVORITES]: {
-          ...state[FAVORITES],
-          results: [...state[FAVORITES].results, updatedMovieResults[movieIdx]],
+        favorites: {
+          ...state.favorites,
+          results: [...state.favorites.results, updatedMovieResults[movieIdx]],
         },
       };
     }
@@ -138,9 +138,9 @@ const moviesReducer = (
           ...state[query],
           results: updatedMovieResults,
         },
-        [FAVORITES]: {
-          ...state[FAVORITES],
-          results: state[FAVORITES].results.filter(
+        favorites: {
+          ...state.favorites,
+          results: state.favorites.results.filter(
             movie => movie.imdbID !== imdbID
           ),
         },
