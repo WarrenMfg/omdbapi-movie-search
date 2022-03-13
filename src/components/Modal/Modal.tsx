@@ -7,6 +7,7 @@ import {
 } from 'react';
 import cn from 'classnames';
 import useBodyLock from '../../hooks/useBodyLock';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
     };
   }, [closeModal]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       modalRef.current?.classList.add('translate-y-0');
       modalRef.current?.classList.remove('-translate-y-full');
@@ -50,25 +51,30 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
   };
 
   return (
-    <div
-      className={cn(
-        'fixed inset-0 z-30 -translate-y-full bg-black/25 opacity-0 backdrop-blur transition-all tl:p-8'
+    <>
+      {createPortal(
+        <div
+          className={cn(
+            'fixed inset-0 z-30 -translate-y-full bg-black/25 opacity-0 backdrop-blur transition-all tl:p-8'
+          )}
+          onClick={handleCloseModal}
+          id='modal-background'
+          role='presentation'
+          ref={modalRef}
+        >
+          <div
+            role='dialog'
+            id='movie-details'
+            title='Movie Details'
+            aria-modal='true'
+            className='flex h-full flex-col bg-white p-8 text-cyan-700 tl:mx-auto tl:max-w-2xl tl:rounded-lg'
+          >
+            {children}
+          </div>
+        </div>,
+        document.body
       )}
-      onClick={handleCloseModal}
-      id='modal-background'
-      role='presentation'
-      ref={modalRef}
-    >
-      <div
-        role='dialog'
-        id='movie-details'
-        title='Movie Details'
-        aria-modal='true'
-        className='flex h-full flex-col bg-white p-8 text-cyan-700 tl:mx-auto tl:max-w-2xl tl:rounded-lg'
-      >
-        {isOpen && children}
-      </div>
-    </div>
+    </>
   );
 };
 
