@@ -1,4 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import Error from '../Error/Error';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -20,8 +21,7 @@ class ErrorBoundary extends Component<ReactNode, ErrorBoundaryState> {
 
   render() {
     if (this.state.hasError) {
-      // TODO: make this pretty and add a way to reset state
-      return <h1>Something went wrong.</h1>;
+      return <Error errorMessage="Something's not right..." />;
     }
 
     return this.props.children;
