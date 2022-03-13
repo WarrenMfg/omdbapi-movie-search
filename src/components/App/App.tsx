@@ -1,10 +1,4 @@
-import {
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { fetchMovieDetails, fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
@@ -67,7 +61,7 @@ const App = ({ query }: AppProps) => {
     setMoviesIdxForModal(+idx);
   };
 
-  const handleCloseModal = useCallback(() => setMoviesIdxForModal(-1), []);
+  const handleCloseModal = () => setMoviesIdxForModal(-1);
 
   if (errorMessage) return <Error errorMessage={errorMessage} />;
   if (!movies && !isViewingFavorites) return <Spinner />;
