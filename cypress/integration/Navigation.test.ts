@@ -1,15 +1,23 @@
 import { cy, it, describe, expect } from 'local-cypress';
-import { IPHONE, MBP16, MOBILE_NAV_BUTTON, MOVIE_LIST } from '../constants';
+import {
+  DESKTOP_NAV,
+  IPHONE,
+  MBP16,
+  MOBILE_NAV,
+  MOBILE_NAV_BUTTON,
+  MOVIE_LIST,
+} from '../constants';
 import { FAVORITES, NAV_ITEMS } from '../../src/utils/constants';
 
 describe('Navigation', () => {
   describe('Navigation on mobile', IPHONE, () => {
+    //
     NAV_ITEMS.forEach(navItem => {
       it(navItem, () => {
         cy.visit(`/${navItem}`);
 
         cy.get(MOBILE_NAV_BUTTON).click();
-        cy.get(`a[href="/${navItem}"]`)
+        cy.get(`${MOBILE_NAV} a[href="/${navItem}"]`)
           .should('exist')
           .and($el => {
             expect($el).to.have.attr('tabindex', '0');
@@ -33,7 +41,7 @@ describe('Navigation', () => {
       it(navItem, () => {
         cy.visit(`/${navItem}`);
 
-        cy.get(`a[href="/${navItem}"]`)
+        cy.get(`${DESKTOP_NAV} a[href="/${navItem}"]`)
           .should('exist')
           .and($el => {
             expect($el).to.have.attr('aria-current', 'page');

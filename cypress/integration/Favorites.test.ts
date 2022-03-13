@@ -11,6 +11,7 @@ import {
 import { assertModalIsClosed, openCard } from '../utils';
 
 describe('Favorites', () => {
+  // Repeat tests for mobile and desktop
   [
     { description: 'mobile', device: IPHONE },
     { description: 'desktop', device: MBP16 },
@@ -44,6 +45,7 @@ describe('Favorites', () => {
 
           const isMobile = screenSize.description === 'mobile';
 
+          // Navigate to '/favorites' route
           isMobile && cy.get(MOBILE_NAV_BUTTON).click();
           cy.get(`${isMobile ? MOBILE_NAV : DESKTOP_NAV} ul li`)
             .last()
@@ -55,6 +57,7 @@ describe('Favorites', () => {
 
           cy.contains('Unfavorite').click();
           assertModalIsClosed();
+          cy.contains('Pick some favorites!').should('exist');
         });
       }
     );
