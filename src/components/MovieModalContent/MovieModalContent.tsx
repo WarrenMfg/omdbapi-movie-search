@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useDispatch from '../../hooks/useDispatch';
 import {
@@ -32,15 +31,8 @@ const MovieModalContent = ({
   movie,
   closeModal,
 }: MovieModalContentProps) => {
-  const buttonContainerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    (
-      buttonContainerRef.current?.firstElementChild as HTMLButtonElement
-    )?.focus();
-  }, []);
 
   if (!movie?.hasDetails) {
     return (
@@ -86,7 +78,7 @@ const MovieModalContent = ({
         />
       </div>
 
-      <div className='mt-auto flex space-x-4' ref={buttonContainerRef}>
+      <div className='relative mt-auto flex space-x-4 before:absolute before:inset-x-0 before:-top-10 before:h-6 before:bg-gradient-to-t before:from-white before:to-white/0'>
         <Button
           handleOnClick={handleFavoriting}
           ariaLabel={`${favoriteStatus} ${movie.Title}`}
