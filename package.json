@@ -19,6 +19,7 @@
     "build": "react-scripts build",
     "test:jest": "react-scripts test",
     "test:cy": "cypress open",
+    "test:cy-headless": "cypress run --headless",
     "eject": "react-scripts eject",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
