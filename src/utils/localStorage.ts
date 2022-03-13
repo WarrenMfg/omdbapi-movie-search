@@ -1,13 +1,13 @@
 import { MovieDetails } from '../state/movies/moviesReducer';
 import { FAVORITES } from './constants';
 
-export const addToLocalStorage = (movie: MovieDetails) => {
+export const addFavoriteToLocalStorage = (movie: MovieDetails) => {
   const favorites = getLocalStorage(FAVORITES, []);
-  favorites.push(movie);
+  favorites.push({ ...movie, isFavorite: true });
   setLocalStorage(FAVORITES, favorites);
 };
 
-export const removeFromLocalStorage = (movie: MovieDetails) => {
+export const removeFavoriteFromLocalStorage = (movie: MovieDetails) => {
   const favorites = getLocalStorage(FAVORITES, []).filter(
     mov => mov.imdbID !== movie.imdbID
   );
@@ -27,7 +27,6 @@ export const getLocalStorage = (
 
 export const setLocalStorage = (key: string, data: any) => {
   try {
-    console.log(key);
     localStorage.setItem(key, JSON.stringify(data));
   } catch (error) {
     console.error(error);

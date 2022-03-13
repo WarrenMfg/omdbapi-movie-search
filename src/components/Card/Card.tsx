@@ -27,9 +27,11 @@ const Card = ({
         ariaLabel={`Open modal for ${title}`}
         id={id}
       >
-        <div className='flex items-center justify-between'>
-          <h3 className='text-md line-clamp-1'>{title}</h3>
-          <FavoriteIcon isFavorite={isFavorite} />
+        <div className='relative'>
+          <h3 className='text-md mr-6 line-clamp-1'>{title}</h3>
+          <div className='absolute right-0 top-0.5'>
+            <FavoriteIcon isFavorite={isFavorite} />
+          </div>
         </div>
         <p className='mb-4 text-xs'>{year}</p>
         <div className='relative grid place-items-center overflow-hidden rounded-lg border bg-cyan-100 after:block after:pb-[100%] after:content-[""]'>

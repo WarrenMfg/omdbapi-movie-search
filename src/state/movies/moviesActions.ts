@@ -1,4 +1,4 @@
-import { QueryResults } from './moviesReducer';
+import { MovieDetails, QueryResults } from './moviesReducer';
 
 export const SET_MOVIES = 'movies/setMany';
 export const SET_MOVIE_WITH_DETAILS = 'movies/setOne';
@@ -26,18 +26,12 @@ export const setMovie = (
   },
 });
 
-export const addFavoriteMovie = (query: string, imdbID: string) => ({
+export const addFavoriteMovie = (movie: MovieDetails) => ({
   type: ADD_FAVORITE_MOVIE,
-  payload: {
-    query,
-    imdbID,
-  },
+  payload: movie,
 });
 
-export const removeFavoriteMovie = (query: string, imdbID: string) => ({
+export const removeFavoriteMovie = (movie: MovieDetails) => ({
   type: REMOVE_FAVORITE_MOVIE,
-  payload: {
-    query,
-    imdbID,
-  },
+  payload: movie,
 });

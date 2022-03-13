@@ -63,7 +63,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
             aria-modal='true'
             className='flex h-full flex-col bg-white p-8 text-cyan-700 tl:mx-auto tl:max-w-2xl tl:rounded-lg'
           >
-            {children}
+            {isOpen && children}
           </div>
         </div>,
         document.body

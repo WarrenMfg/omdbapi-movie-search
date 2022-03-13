@@ -9,8 +9,8 @@ import {
 import { MovieDetails } from '../../state/movies/moviesReducer';
 import { BUTTON_STYLE, FAVORITES } from '../../utils/constants';
 import {
-  addToLocalStorage,
-  removeFromLocalStorage,
+  addFavoriteToLocalStorage,
+  removeFavoriteFromLocalStorage,
 } from '../../utils/localStorage';
 import Button from '../Button/Button';
 import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
@@ -54,12 +54,12 @@ const MovieModalContent = ({
 
   const handleFavoriting = () => {
     if (movie.isFavorite) {
-      dispatch(removeFavoriteMovie(query, movie.imdbID));
+      dispatch(removeFavoriteMovie(movie));
       location.pathname.endsWith(FAVORITES) && closeModal();
-      removeFromLocalStorage(movie);
+      removeFavoriteFromLocalStorage(movie);
     } else {
-      dispatch(addFavoriteMovie(query, movie.imdbID));
-      addToLocalStorage(movie);
+      dispatch(addFavoriteMovie(movie));
+      addFavoriteToLocalStorage(movie);
     }
   };
 
@@ -87,14 +87,14 @@ const MovieModalContent = ({
           ariaLabel={`${favoriteStatus} ${movie.Title}`}
           className={cn(BUTTON_STYLE, 'grow')}
         >
-          {favoriteStatus}
+          <span>{favoriteStatus}</span>
         </Button>
         <Button
           handleOnClick={closeModal}
           ariaLabel={`Close modal for ${movie.Title}`}
           className={cn(BUTTON_STYLE, 'grow')}
         >
-          Close
+          <span>Close</span>
         </Button>
       </div>
     </>

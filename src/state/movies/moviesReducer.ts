@@ -17,6 +17,7 @@ export interface Movie {
   Poster: string;
   hasDetails: boolean;
   isFavorite: boolean;
+  query: string;
 }
 
 export interface MovieDetails extends Movie {
@@ -62,6 +63,7 @@ const moviesReducer = (
         ...movie,
         hasDetails: false,
         isFavorite: !!faveMap[movie.imdbID],
+        query: action.payload.query,
       })) as Movie[];
 
       const totalResults = +action.payload.data.totalResults;
@@ -124,6 +126,7 @@ const moviesReducer = (
         ...updatedMovieResults[movieIdx],
         isFavorite: false,
       };
+
       return {
         ...state,
         [query]: {
