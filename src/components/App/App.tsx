@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { fetchMovieDetails, fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
@@ -19,6 +19,7 @@ interface AppProps {
 
 const App = ({ query }: AppProps) => {
   const [moviesIdxForModal, setMoviesIdxForModal] = useState(-1);
+  const cardRef = useRef<HTMLButtonElement | null>(null);
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
   const movies = useSelector(state => state.movies[query]?.results);
@@ -30,16 +31,27 @@ const App = ({ query }: AppProps) => {
     }
   }, [query, dispatch, movies, isFavorites]);
 
+  useEffect(() => {
+    if (moviesIdxForModal === -1) {
+      cardRef.current?.focus();
+    }
+  }, [moviesIdxForModal]);
+
   const handleOpenCard = (e: SyntheticEvent) => {
     const target = e.target as HTMLElement;
-    const id = target.closest('button')?.id;
+    const button = target.closest('button');
+    const id = button?.id;
     if (!id) return;
+
     const [idx, imdbID] = id.split('-');
     const movie = movies.find(movie => movie.imdbID === imdbID);
     if (!movie) return;
+
     if (!movie.hasDetails) {
       dispatch(fetchMovieDetails(query, imdbID));
     }
+
+    cardRef.current = button;
     setMoviesIdxForModal(+idx);
   };
 
