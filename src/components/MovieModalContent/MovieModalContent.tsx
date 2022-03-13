@@ -8,6 +8,10 @@ import {
 } from '../../state/movies/moviesActions';
 import { MovieDetails } from '../../state/movies/moviesReducer';
 import { BUTTON_STYLE, FAVORITES } from '../../utils/constants';
+import {
+  addToLocalStorage,
+  removeFromLocalStorage,
+} from '../../utils/localStorage';
 import Button from '../Button/Button';
 import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 import Spinner from '../Spinner/Spinner';
@@ -52,8 +56,10 @@ const MovieModalContent = ({
     if (movie.isFavorite) {
       dispatch(removeFavoriteMovie(query, movie.imdbID));
       location.pathname.endsWith(FAVORITES) && closeModal();
+      removeFromLocalStorage(movie);
     } else {
       dispatch(addFavoriteMovie(query, movie.imdbID));
+      addToLocalStorage(movie);
     }
   };
 

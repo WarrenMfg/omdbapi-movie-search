@@ -1,5 +1,5 @@
 import { FAVORITES } from '../../utils/constants';
-import getLocalStorage from '../../utils/getLocalStorage';
+import { getLocalStorage } from '../../utils/localStorage';
 import updateMovieWithDetails from '../../utils/updateMovieWithDetails';
 import { Action } from '../types';
 import {
