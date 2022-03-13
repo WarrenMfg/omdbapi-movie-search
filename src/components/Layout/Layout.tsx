@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 import cn from 'classnames';
 import useSelector from '../../hooks/useSelector';
 import Header from '../Header/Header';
@@ -14,10 +14,18 @@ interface LayoutProps {
   children: ReactNode;
 }
 
+/**
+ * General layout for mobile and desktop screen sizes
+ */
 const Layout = ({ children }: LayoutProps) => {
   const isMobileNavOpen = useSelector(state => state.mobileNav.isOpen);
   useBodyLock(isMobileNavOpen);
   const dispatch = useDispatch();
+
+  const handleOnNavigate = useCallback(
+    () => dispatch(setMobileNav(CLOSE_MOBILE_NAV)),
+    [dispatch]
+  );
 
   return (
     <div className='bg-white'>
@@ -27,10 +35,7 @@ const Layout = ({ children }: LayoutProps) => {
           {/* mobile */}
           <Navigation
             tabIndex={isMobileNavOpen ? 0 : -1}
-            handleOnNavigate={() => {
-              dispatch(setMobileNav(CLOSE_MOBILE_NAV));
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            handleOnNavigate={handleOnNavigate}
             classNames={cn(
               'absolute h-full w-full transition-transform tl:hidden',
               {

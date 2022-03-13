@@ -1,4 +1,10 @@
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import {
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { fetchMovieDetails, fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
@@ -11,38 +17,43 @@ import Modal from '../Modal/Modal';
 import MovieModalContent from '../MovieModalContent/MovieModalContent';
 import Spinner from '../Spinner/Spinner';
 
-import './App.module.css';
-
 interface AppProps {
   query: string;
 }
 
+/**
+ * Main shell component to render all routes
+ */
 const App = ({ query }: AppProps) => {
   const [moviesIdxForModal, setMoviesIdxForModal] = useState(-1);
   const cardRef = useRef<HTMLButtonElement | null>(null);
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
   const movies = useSelector(state => state.movies[query]?.results);
-  const isFavorites = query === FAVORITES;
+  const isViewingFavorites = query === FAVORITES;
 
+  // If user is not on '/favorites' routes, then fetch movies
   useEffect(() => {
-    if (!movies && !isFavorites) {
+    if (!movies && !isViewingFavorites) {
       dispatch(fetchMovies(query));
     }
-  }, [query, dispatch, movies, isFavorites]);
+  }, [query, dispatch, movies, isViewingFavorites]);
 
+  // Focus the active card after closing the modal
   useEffect(() => {
     if (moviesIdxForModal === -1) {
       cardRef.current?.focus();
     }
   }, [moviesIdxForModal]);
 
+  // Fetch movie details if haven't already done so
   const handleOpenCard = (e: SyntheticEvent) => {
     const target = e.target as HTMLElement;
     const button = target.closest('button');
     const id = button?.id;
     if (!id) return;
 
+    // Get the movie list array index and the imdbID
     const [idx, imdbID] = id.split('-');
     const movie = movies.find(movie => movie.imdbID === imdbID);
     if (!movie) return;
@@ -51,24 +62,23 @@ const App = ({ query }: AppProps) => {
       dispatch(fetchMovieDetails(query, imdbID));
     }
 
+    // Keep track of active card so we can focus on it later
     cardRef.current = button;
     setMoviesIdxForModal(+idx);
   };
 
+  const handleCloseModal = useCallback(() => setMoviesIdxForModal(-1), []);
+
   if (errorMessage) return <Error errorMessage={errorMessage} />;
-  if (!movies && !isFavorites) return <Spinner />;
+  if (!movies && !isViewingFavorites) return <Spinner />;
   return (
     <>
-      <AppHeading {...{ query, isFavorites }} />
+      <AppHeading {...{ query, isViewingFavorites }} />
       <MoviesList {...{ movies, handleOpenCard }} />
-      <Modal
-        isOpen={moviesIdxForModal > -1}
-        closeModal={() => setMoviesIdxForModal(-1)}
-      >
+      <Modal isOpen={moviesIdxForModal > -1} closeModal={handleCloseModal}>
         <MovieModalContent
-          query={query}
           movie={movies[moviesIdxForModal] as MovieDetails}
-          closeModal={() => setMoviesIdxForModal(-1)}
+          closeModal={handleCloseModal}
         />
       </Modal>
     </>
@@ -77,12 +87,15 @@ const App = ({ query }: AppProps) => {
 
 interface AppHeadingProps {
   query: string;
-  isFavorites: boolean;
+  isViewingFavorites: boolean;
 }
 
-const AppHeading = ({ query, isFavorites }: AppHeadingProps) => (
+/**
+ * Dynamic heading for movie list routes and favorites
+ */
+const AppHeading = ({ query, isViewingFavorites }: AppHeadingProps) => (
   <h2 className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'>
-    {isFavorites ? (
+    {isViewingFavorites ? (
       <span className='capitalize'>{FAVORITES}</span>
     ) : (
       <span>
@@ -97,6 +110,9 @@ interface MoviesListProps {
   handleOpenCard: (e: SyntheticEvent) => void;
 }
 
+/**
+ * Displays movie list, or if on '/favorites' and none are saved then show message
+ */
 const MoviesList = ({ movies, handleOpenCard }: MoviesListProps) =>
   movies.length ? (
     <ul

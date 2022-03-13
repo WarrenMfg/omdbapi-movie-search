@@ -53,12 +53,17 @@ const moviesReducer = (
   action: Action
 ): MoviesState => {
   switch (action.type) {
+    /**
+     * Set movies
+     */
     case SET_MOVIES: {
+      // Create a lookup map based in imdbID to determine if any movies are a favorite
       const favoritesMap = state.favorites.results.reduce((acc, cur) => {
         acc[cur.imdbID] = cur;
         return acc;
       }, {} as Record<string, Movie | MovieDetails>);
 
+      // Add additional details to search results
       const results = action.payload.data.Search.map((movie: Movie) => ({
         ...movie,
         hasDetails: false,
@@ -70,17 +75,27 @@ const moviesReducer = (
 
       return {
         ...state,
-        [action.payload.query]: { totalResults, results },
+        [action.payload.query]: {
+          totalResults,
+          results,
+        },
       };
     }
 
+    /**
+     * Set movie with details
+     */
     case SET_MOVIE_WITH_DETAILS: {
       const { query, imdbID, data } = action.payload;
       const movieIdx = state[query].results.findIndex(
         (movie: Movie) => movie.imdbID === imdbID
       );
       if (movieIdx < 0) return state;
+
+      // Reduce details to only the details necessary
       const movieDetails = reduceObject(data, MOVIE_DETAILS_PROPERTIES);
+
+      // Update movie with details
       const updatedMovieResults = [...state[query].results];
       updatedMovieResults[movieIdx] = {
         ...state[query].results[movieIdx],
@@ -96,17 +111,23 @@ const moviesReducer = (
       };
     }
 
+    /**
+     * Add favorite movie
+     */
     case ADD_FAVORITE_MOVIE: {
       const { query, imdbID } = action.payload;
       const movieIdx = state[query].results.findIndex(
         movie => movie.imdbID === imdbID
       );
       if (movieIdx < 0) return state;
+
+      // Update movie as favorite
       const updatedMovieResults = [...state[query].results];
       updatedMovieResults[movieIdx] = {
         ...updatedMovieResults[movieIdx],
         isFavorite: true,
       };
+
       return {
         ...state,
         [query]: {
@@ -120,6 +141,9 @@ const moviesReducer = (
       };
     }
 
+    /**
+     * Remove favorite movie
+     */
     case REMOVE_FAVORITE_MOVIE: {
       const { query, imdbID } = action.payload;
       const restState = {
@@ -132,11 +156,14 @@ const moviesReducer = (
         },
       };
 
+      // On reload, state[query] may not exist yet
       if (state[query]) {
         const movieIdx = state[query].results.findIndex(
           movie => movie.imdbID === imdbID
         );
         if (movieIdx < 0) return restState;
+
+        // Update move as not a favorite
         const updatedMovieResults = [...state[query].results];
         updatedMovieResults[movieIdx] = {
           ...updatedMovieResults[movieIdx],
@@ -155,6 +182,9 @@ const moviesReducer = (
       return restState;
     }
 
+    /**
+     * Default
+     */
     default:
       return state;
   }

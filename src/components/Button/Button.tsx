@@ -8,6 +8,9 @@ interface ButtonProps {
   children: ReactNode;
 }
 
+/**
+ * Button component
+ */
 const Button = ({
   handleOnClick,
   className,

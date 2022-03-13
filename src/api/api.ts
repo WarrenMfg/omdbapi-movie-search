@@ -4,6 +4,7 @@ import { DispatchForLoop, Thunk } from '../state/types';
 
 const baseUrl = 'http://www.omdbapi.com/';
 
+// Basic fetch response handler
 const handleResponse = async (res: Response) => {
   if (!res.ok) throw new Error('Data could not be fetched.');
   const data = await res.json();
@@ -11,6 +12,7 @@ const handleResponse = async (res: Response) => {
   return data;
 };
 
+// Thunk-like closure used to fetch movies for a route
 export const fetchMovies =
   (query: string): Thunk =>
   async (dispatch: DispatchForLoop) => {
@@ -25,6 +27,7 @@ export const fetchMovies =
     }
   };
 
+// Thunk-like closure used to fetch details for a single movie
 export const fetchMovieDetails =
   (query: string, imdbID: string) => async (dispatch: DispatchForLoop) => {
     try {

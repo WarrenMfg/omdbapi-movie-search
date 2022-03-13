@@ -1,3 +1,6 @@
+/**
+ * Basic spinner
+ */
 const Spinner = () => {
   return (
     <div className='grid h-full place-items-center' data-cy='spinner'>

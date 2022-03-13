@@ -5,6 +5,9 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
+/**
+ * App error boundary
+ */
 class ErrorBoundary extends Component<ReactNode, ErrorBoundaryState> {
   constructor(props: ReactNode) {
     super(props);

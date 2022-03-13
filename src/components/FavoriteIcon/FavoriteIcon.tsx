@@ -4,6 +4,9 @@ interface FavoriteIconProps {
   isFavorite: boolean;
 }
 
+/**
+ * Heart icon
+ */
 const FavoriteIcon = ({ isFavorite }: FavoriteIconProps) => {
   return (
     <svg

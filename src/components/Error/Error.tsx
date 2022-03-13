@@ -4,6 +4,9 @@ interface ErrorProps {
   errorMessage: string;
 }
 
+/**
+ * Error component to display error message
+ */
 const Error = ({ errorMessage }: ErrorProps) => {
   return (
     <section className='pt-4 text-center text-cyan-700'>

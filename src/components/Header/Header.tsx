@@ -8,10 +8,14 @@ import {
 import Button from '../Button/Button';
 import HamburgerIcon from '../HamburgerIcon/HamburgerIcon';
 
+/**
+ * Top bar sticky header
+ */
 const Header = () => {
   const dispatch = useDispatch();
   const isMobileNavOpen = useSelector<boolean>(state => state.mobileNav.isOpen);
 
+  // Mobile nav button click handler
   const handleOnClick = () =>
     dispatch(
       setMobileNav(isMobileNavOpen ? CLOSE_MOBILE_NAV : OPEN_MOBILE_NAV)

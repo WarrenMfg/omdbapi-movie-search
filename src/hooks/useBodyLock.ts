@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 
+/**
+ * Lock body when modal is open to prevent background scrolling
+ */
 const useBodyLock = (shouldLockBody: boolean) => {
   useEffect(() => {
     if (shouldLockBody) {

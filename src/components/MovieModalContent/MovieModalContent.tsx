@@ -21,19 +21,30 @@ import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 import Spinner from '../Spinner/Spinner';
 
 interface MovieModalContentProps {
-  query: string;
   movie: MovieDetails;
   closeModal: () => void;
 }
 
-const MovieModalContent = ({
-  query,
-  movie,
-  closeModal,
-}: MovieModalContentProps) => {
+/**
+ * Content to display movie details
+ */
+const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // Handler for adding and removing favorites
+  const handleFavoriting = () => {
+    if (movie.isFavorite) {
+      dispatch(removeFavoriteMovie(movie));
+      location.pathname.endsWith(FAVORITES) && closeModal();
+      removeFavoriteFromLocalStorage(movie);
+    } else {
+      dispatch(addFavoriteMovie(movie));
+      addFavoriteToLocalStorage(reduceObject(movie, MOVIE_PROPERTIES) as Movie);
+    }
+  };
+
+  // If still fetching, show spinner
   if (!movie?.hasDetails) {
     return (
       <>
@@ -48,17 +59,6 @@ const MovieModalContent = ({
       </>
     );
   }
-
-  const handleFavoriting = () => {
-    if (movie.isFavorite) {
-      dispatch(removeFavoriteMovie(movie));
-      location.pathname.endsWith(FAVORITES) && closeModal();
-      removeFavoriteFromLocalStorage(movie);
-    } else {
-      dispatch(addFavoriteMovie(movie));
-      addFavoriteToLocalStorage(reduceObject(movie, MOVIE_PROPERTIES) as Movie);
-    }
-  };
 
   const favoriteStatus = movie.isFavorite ? 'Unfavorite' : 'Favorite';
   return (
@@ -102,6 +102,9 @@ interface MovieModalDetailsProps {
   movie: MovieDetails;
 }
 
+/**
+ * Abstracted markup for movie details
+ */
 const MovieModalDetails = ({ movie }: MovieModalDetailsProps) => (
   <div className='mb-4 columns-2 gap-8 text-xs'>
     <p>

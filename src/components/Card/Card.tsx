@@ -11,6 +11,9 @@ interface CardProps {
   id: string;
 }
 
+/**
+ * Movie card component
+ */
 const Card = ({
   handleOpenCard,
   title,

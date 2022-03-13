@@ -10,6 +10,9 @@ interface NavigationProps {
   dataAttr?: Record<string, string>;
 }
 
+/**
+ * Mobile and desktop navigation component
+ */
 const Navigation = ({
   classNames,
   handleOnNavigate,
@@ -18,10 +21,12 @@ const Navigation = ({
 }: NavigationProps) => {
   const location = useLocation();
 
+  // Close mobile nav, if viewing on a mobile screen,
+  // then scroll to top of page
   useEffect(() => {
     handleOnNavigate?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [handleOnNavigate, location]);
 
   return (
     <nav

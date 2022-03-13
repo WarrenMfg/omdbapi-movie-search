@@ -10,11 +10,15 @@ interface ModalProps {
   children: ReactNode;
 }
 
+/**
+ * Modal shell used to wrap modal content
+ */
 const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const tabItemsRef = useRef<HTMLElement[] | null>(null);
   useBodyLock(isOpen);
 
+  // Close modal when user presses the 'Escape' key
   useEffect(() => {
     const escKeyHandler = (e: KeyboardEvent) =>
       e.key.toLowerCase() === 'escape' && closeModal();
@@ -24,6 +28,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
     };
   }, [closeModal]);
 
+  // Add a tab trap to keep focus within the modal
   useEffect(() => {
     window.addEventListener('keydown', trapTab);
     tabItemsRef.current = Array.from(
@@ -34,6 +39,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
     return () => window.removeEventListener('keydown', trapTab);
   }, [children]);
 
+  // Basic animations for modal
   useEffect(() => {
     if (isOpen) {
       modalRef.current?.classList.add('translate-y-0');
@@ -52,6 +58,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
     }
   }, [isOpen]);
 
+  // Tab trap for useEffect above
   const trapTab = (e: KeyboardEvent) => {
     if (e.key.toLowerCase() === 'tab') {
       // shift + tab
@@ -73,11 +80,13 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
     }
   };
 
+  // Close modal handler when user clicks outside of modal
   const handleCloseModal = (e: SyntheticEvent) => {
     const target = e.target as HTMLElement;
     if (target.id === MODAL_BACKGROUND) closeModal();
   };
 
+  // Append to body to bypass any relatively positioned elements
   return (
     <>
       {createPortal(
