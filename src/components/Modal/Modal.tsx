@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  SyntheticEvent,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from 'react';
+import { ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import useBodyLock from '../../hooks/useBodyLock';
 import { createPortal } from 'react-dom';
