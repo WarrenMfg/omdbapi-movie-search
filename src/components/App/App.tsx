@@ -99,7 +99,10 @@ interface MoviesListProps {
 
 const MoviesList = ({ movies, handleOpenCard }: MoviesListProps) =>
   movies.length ? (
-    <ul className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'>
+    <ul
+      className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'
+      data-cy='movie-list'
+    >
       {movies.map((movie, i) => (
         <Card
           key={`${i}-${movie.Title}`}

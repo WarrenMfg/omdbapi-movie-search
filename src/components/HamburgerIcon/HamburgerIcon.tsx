@@ -8,7 +8,7 @@ const hamburgerBaseClasses = 'bg-cyan-100 h-0.5 transition-transform';
 
 const HamburgerIcon = ({ isMobileNavOpen }: HamburgerIconProps) => {
   return (
-    <div className='w-8 p-2'>
+    <div className='w-8 p-2' data-cy='mobile-nav-button'>
       <div
         className={cn(hamburgerBaseClasses, {
           'translate-y-1.5 rotate-45': isMobileNavOpen,

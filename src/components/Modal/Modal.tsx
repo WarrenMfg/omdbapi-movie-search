@@ -2,7 +2,7 @@ import { ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import useBodyLock from '../../hooks/useBodyLock';
 import { createPortal } from 'react-dom';
-import { FOCUSABLE_ELEMENTS } from '../../utils/constants';
+import { FOCUSABLE_ELEMENTS, MODAL_BACKGROUND } from '../../utils/constants';
 
 interface ModalProps {
   isOpen: boolean;
@@ -75,7 +75,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
 
   const handleCloseModal = (e: SyntheticEvent) => {
     const target = e.target as HTMLElement;
-    if (target.id === 'modal-background') closeModal();
+    if (target.id === MODAL_BACKGROUND) closeModal();
   };
 
   return (
@@ -86,9 +86,10 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
             'fixed inset-0 z-30 -translate-y-full bg-black/25 opacity-0 backdrop-blur transition-all tl:p-8'
           )}
           onClick={handleCloseModal}
-          id='modal-background'
+          id={MODAL_BACKGROUND}
           role='presentation'
           ref={modalRef}
+          data-cy={MODAL_BACKGROUND}
         >
           <div
             role='dialog'

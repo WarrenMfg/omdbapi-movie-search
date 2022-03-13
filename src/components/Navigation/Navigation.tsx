@@ -1,19 +1,20 @@
 import cn from 'classnames';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
-import { navItems } from '../Routes/Routes';
+import { NAV_ITEMS } from '../../utils/constants';
 
 interface NavigationProps {
   classNames?: string;
   handleOnNavigate?: () => void;
   tabIndex?: number;
+  dataAttr?: Record<string, string>;
 }
 
 const Navigation = ({
   classNames,
   handleOnNavigate,
   tabIndex,
+  dataAttr,
 }: NavigationProps) => {
   const location = useLocation();
 
@@ -23,9 +24,12 @@ const Navigation = ({
   }, [location]);
 
   return (
-    <nav className={cn('z-10 h-full bg-sky-900 text-cyan-100', classNames)}>
+    <nav
+      className={cn('z-10 h-full bg-sky-900 text-cyan-100', classNames)}
+      {...(dataAttr && { [dataAttr.key]: dataAttr.value })}
+    >
       <ul className='sticky top-11'>
-        {navItems.map(navItem => (
+        {NAV_ITEMS.map(navItem => (
           <li key={navItem}>
             <Link
               tabIndex={tabIndex}

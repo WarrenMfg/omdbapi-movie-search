@@ -1,18 +1,8 @@
 import { useRoutes, RouteObject, Navigate } from 'react-router-dom';
-import { FAVORITES } from '../../utils/constants';
+import { NAV_ITEMS } from '../../utils/constants';
 import App from '../App/App';
 
-export const navItems = [
-  'super',
-  'cool',
-  'nice',
-  'sweet',
-  'awesome',
-  'dude',
-  FAVORITES,
-];
-
-const routes: RouteObject[] = ['', ...navItems].reduce(
+const routes: RouteObject[] = ['', ...NAV_ITEMS].reduce(
   (acc: RouteObject[], cur: string) => {
     if (cur) {
       acc.push({

@@ -38,9 +38,13 @@ const Layout = ({ children }: LayoutProps) => {
                 'translate-x-0': isMobileNavOpen,
               }
             )}
+            dataAttr={{ key: 'data-cy', value: 'mobile-nav' }}
           />
           {/* desktop */}
-          <Navigation classNames='hidden tl:block col-span-3 lg:col-span-2' />
+          <Navigation
+            classNames='hidden tl:block col-span-3 lg:col-span-2'
+            dataAttr={{ key: 'data-cy', value: 'desktop-nav' }}
+          />
           <main className='col-span-12 grow bg-gray-100 p-4 tl:col-span-9 tl:col-start-4 lg:col-span-10 lg:col-start-3'>
             {children}
           </main>
