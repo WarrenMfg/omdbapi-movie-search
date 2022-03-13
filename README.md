@@ -72,6 +72,10 @@
 
 <br/>
 
+<img src='./readme/cypress-tests-headless.png' alt='Cypress tests' style='margin: auto; display: block;'>
+
+<br/>
+
 ## Roadmap
 
 - "Remove all favorites" button
