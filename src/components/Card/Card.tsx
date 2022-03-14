@@ -10,6 +10,8 @@ interface CardProps {
   year: string;
   image: string;
   id: string;
+  ariaSetSize: number | undefined;
+  ariaPosInSet: number;
 }
 
 const className = 'absolute h-full w-full object-cover object-center';
@@ -24,9 +26,17 @@ const Card = ({
   year,
   image,
   id,
+  ariaSetSize,
+  ariaPosInSet,
 }: CardProps) => {
   return (
-    <li className='h-full w-full max-w-xs rounded-lg shadow-lg tl:max-w-none'>
+    <li
+      role='article'
+      {...(ariaSetSize && { 'aria-setsize': ariaSetSize })}
+      aria-posinset={ariaPosInSet}
+      aria-labelledby='card-title'
+      className='h-full w-full max-w-xs rounded-lg shadow-lg tl:max-w-none'
+    >
       <Button
         className='h-full w-full rounded-lg bg-white p-4 text-left font-bold text-cyan-700'
         handleOnClick={handleOpenCard}
@@ -34,7 +44,9 @@ const Card = ({
         id={id}
       >
         <div className='relative'>
-          <h3 className='text-md mr-6 line-clamp-1'>{title}</h3>
+          <h3 id='card-title' className='text-md mr-6 line-clamp-1'>
+            {title}
+          </h3>
           <div className='absolute right-0 top-0.5'>
             <FavoriteIcon isFavorite={isFavorite} />
           </div>

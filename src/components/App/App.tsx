@@ -91,7 +91,10 @@ interface AppHeadingProps {
  * Dynamic heading for movie list routes and favorites
  */
 const AppHeading = ({ query, isViewingFavorites }: AppHeadingProps) => (
-  <h2 className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'>
+  <h2
+    id='app-heading'
+    className='m-auto mt-2 mb-6 max-w-xs text-lg font-bold text-cyan-700 tl:max-w-none'
+  >
     {isViewingFavorites ? (
       <span className='capitalize'>{FAVORITES}</span>
     ) : (
@@ -166,6 +169,9 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
       <ul
         className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'
         data-cy='movie-list'
+        role='feed'
+        aria-busy={isFetching.current}
+        aria-labelledby='app-heading'
       >
         {movies.map((movie, i) => (
           <Card
@@ -176,6 +182,8 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
             year={movie.Year}
             image={movie.Poster}
             id={`${i}-${movie.imdbID}`}
+            ariaSetSize={totalResults}
+            ariaPosInSet={i + 1}
           />
         ))}
       </ul>
