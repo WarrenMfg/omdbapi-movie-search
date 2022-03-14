@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_ITEMS } from '../../utils/constants';
+import { NAV_ITEMS } from '../../state/types';
 
 interface NavigationProps {
   classNames?: string;
