@@ -1,16 +1,16 @@
 import { useRoutes, RouteObject, Navigate } from 'react-router-dom';
-import { NAV_ITEMS } from '../../utils/constants';
+import { NAV_ITEMS, Query } from '../../state/types';
 import App from '../App/App';
 
 /**
  * Create routes array
  */
 const routes: RouteObject[] = ['', ...NAV_ITEMS].reduce(
-  (acc: RouteObject[], cur: string) => {
+  (acc: RouteObject[], cur: Query | string) => {
     if (cur) {
       acc.push({
         path: `/${cur}`,
-        element: <App query={cur} />,
+        element: <App query={cur as Query} />,
       });
     } else {
       // The empty string is used to add this redirect
