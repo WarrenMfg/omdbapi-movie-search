@@ -21,11 +21,9 @@ const Navigation = ({
 }: NavigationProps) => {
   const location = useLocation();
 
-  // Close mobile nav, if viewing on a mobile screen,
-  // then scroll to top of page
+  // Close mobile nav, if viewing on a mobile screen
   useEffect(() => {
     handleOnNavigate?.();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [handleOnNavigate, location]);
 
   return (
