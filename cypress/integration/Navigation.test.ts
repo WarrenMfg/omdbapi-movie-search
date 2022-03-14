@@ -7,7 +7,8 @@ import {
   MOBILE_NAV_BUTTON,
   MOVIE_LIST,
 } from '../constants';
-import { FAVORITES, NAV_ITEMS } from '../../src/utils/constants';
+import { FAVORITES } from '../../src/utils/constants';
+import { NAV_ITEMS } from '../../src/state/types';
 
 describe('Navigation', () => {
   describe('Navigation on mobile', IPHONE, () => {
