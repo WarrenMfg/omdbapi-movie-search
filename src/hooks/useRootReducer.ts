@@ -8,8 +8,10 @@ import moviesReducer, {
 } from '../state/movies/moviesReducer';
 import {
   Action,
+  CombinedDispatches,
   Dispatch,
   DispatchForLoop,
+  ReactDispatcher,
   RootState,
   Thunk,
 } from '../state/types';
@@ -18,7 +20,7 @@ import {
  * Redux-like root reducer
  */
 const useRootReducer = (): RootState => {
-  const combinedDispatches = useRef<React.Dispatch<Action>[]>([]);
+  const combinedDispatches = useRef<CombinedDispatches>([]);
 
   // Mobile navigation
   const [mobileNav, mobileNavDispatch] = useReducer(
@@ -49,7 +51,7 @@ const useRootReducer = (): RootState => {
   // Dispatch loop to call reducers and update state
   const dispatchForLoop: DispatchForLoop = useCallback((action: Action) => {
     for (let i = 0; i < combinedDispatches.current.length; i++) {
-      combinedDispatches.current[i](action);
+      (combinedDispatches.current[i] as ReactDispatcher)(action);
     }
   }, []);
 

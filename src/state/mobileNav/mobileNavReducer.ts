@@ -1,5 +1,8 @@
-import { Action } from '../types';
-import { CLOSE_MOBILE_NAV, OPEN_MOBILE_NAV } from './mobileNavActions';
+import {
+  CLOSE_MOBILE_NAV,
+  MobileNavAction,
+  OPEN_MOBILE_NAV,
+} from './mobileNavActions';
 
 export interface MobileNavState {
   isOpen: boolean;
@@ -11,7 +14,7 @@ export const mobileNavInitialState: MobileNavState = {
 
 const mobileNavReducer = (
   state = mobileNavInitialState,
-  action: Action
+  action: MobileNavAction
 ): MobileNavState => {
   switch (action.type) {
     case OPEN_MOBILE_NAV:

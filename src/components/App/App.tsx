@@ -20,7 +20,9 @@ interface AppProps {
  * Main shell component to render all routes
  */
 const App = ({ query }: AppProps) => {
+  // Movies array index for modal
   const [moviesIdxForModal, setMoviesIdxForModal] = useState(-1);
+  // Keep track of active card so we can focus on it later
   const cardRef = useRef<HTMLButtonElement | null>(null);
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
@@ -50,7 +52,7 @@ const App = ({ query }: AppProps) => {
 
     // Get the movie list array index and the imdbID
     const [idx, imdbID] = id.split('-');
-    const movie = movies.find(movie => movie.imdbID === imdbID);
+    const movie = movies?.find(movie => movie.imdbID === imdbID);
     if (!movie) return;
 
     if (!movie.hasDetails) {
@@ -69,10 +71,10 @@ const App = ({ query }: AppProps) => {
   return (
     <>
       <AppHeading {...{ query, isViewingFavorites }} />
-      <MoviesList {...{ query, movies, handleOpenCard }} />
+      <MoviesList {...{ query, handleOpenCard }} movies={movies || []} />
       <Modal isOpen={moviesIdxForModal > -1} closeModal={handleCloseModal}>
         <MovieModalContent
-          movie={movies[moviesIdxForModal] as MovieDetails}
+          movie={movies && (movies[moviesIdxForModal] as MovieDetails)}
           closeModal={handleCloseModal}
         />
       </Modal>
@@ -111,34 +113,35 @@ interface MoviesListProps {
  */
 const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
   const totalResults = useSelector<number | undefined>(
-    state => state.movies[query].totalResults
+    state => state.movies[query]?.totalResults
   );
   const spinnerContainerRef = useRef<HTMLDivElement>(null);
   const isFetching = useRef(false);
   const hasMoreMoviesToFetch = totalResults && totalResults > movies.length;
 
-  const handleIntersect = (
-    entries: IntersectionObserverEntry[],
-    observer: IntersectionObserver
-  ) => {
-    // fetch more movies
-    if (
-      entries[0].isIntersecting &&
-      hasMoreMoviesToFetch &&
-      !isFetching.current
-    ) {
-      isFetching.current = true;
-      console.log('fetching more movies...');
-
-      // no more movies to fetch
-    } else if (!hasMoreMoviesToFetch) {
-      observer.unobserve(spinnerContainerRef.current as Element);
-    }
-  };
-
   useEffect(() => {
     if (hasMoreMoviesToFetch) {
       const ref = spinnerContainerRef.current;
+
+      const handleIntersect = (
+        entries: IntersectionObserverEntry[],
+        observer: IntersectionObserver
+      ) => {
+        // fetch more movies
+        if (
+          entries[0].isIntersecting &&
+          hasMoreMoviesToFetch &&
+          !isFetching.current
+        ) {
+          isFetching.current = true;
+          console.log('fetching more movies...');
+
+          // no more movies to fetch
+        } else if (!hasMoreMoviesToFetch) {
+          observer.unobserve(spinnerContainerRef.current as Element);
+        }
+      };
+
       const observer = new IntersectionObserver(handleIntersect);
       observer.observe(ref as Element);
       return () => {

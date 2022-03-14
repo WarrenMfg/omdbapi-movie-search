@@ -1,5 +1,4 @@
-import { Action } from '../types';
-import { SET_ERROR } from './errorActions';
+import { ErrorAction, SET_ERROR } from './errorActions';
 
 export interface ErrorState {
   message: string | null;
@@ -11,7 +10,7 @@ export const errorInitialState: ErrorState = {
 
 const errorReducer = (
   state = errorInitialState,
-  action: Action
+  action: ErrorAction
 ): ErrorState => {
   switch (action.type) {
     case SET_ERROR:
