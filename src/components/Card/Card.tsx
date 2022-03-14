@@ -1,4 +1,5 @@
 import { SyntheticEvent } from 'react';
+import Image from '../Image/Image';
 import Button from '../Button/Button';
 import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 
@@ -10,6 +11,8 @@ interface CardProps {
   image: string;
   id: string;
 }
+
+const className = 'absolute h-full w-full object-cover object-center';
 
 /**
  * Movie card component
@@ -38,10 +41,10 @@ const Card = ({
         </div>
         <p className='mb-4 text-xs'>{year}</p>
         <div className='relative overflow-hidden rounded-lg border bg-cyan-100 after:block after:pb-[100%]'>
-          <img
+          <Image
             src={image}
-            className='absolute h-full w-full object-cover object-center'
             alt={`Movie poster for "${title}"`}
+            className={className}
           />
         </div>
       </Button>

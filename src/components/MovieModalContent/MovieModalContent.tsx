@@ -19,6 +19,7 @@ import reduceObject from '../../utils/reduceObject';
 import Button from '../Button/Button';
 import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 import Spinner from '../Spinner/Spinner';
+import Image from '../Image/Image';
 
 interface MovieModalContentProps {
   movie: MovieDetails | undefined;
@@ -70,11 +71,14 @@ const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
       <h3 className='text-md mb-2 font-bold'>{movie.Title}</h3>
       <div className='mb-4 overflow-y-scroll'>
         <MovieModalDetails movie={movie} />
-        <p className='mb-4'>{movie.Plot}</p>
-        <img
-          className='m-auto rounded-lg'
+        <p className='mb-4'>
+          <span className='font-bold'>Plot: </span>
+          {movie.Plot}
+        </p>
+        <Image
           src={movie.Poster}
           alt={`Movie poster for "${movie.Title}"`}
+          className='m-auto rounded-lg'
         />
       </div>
 
