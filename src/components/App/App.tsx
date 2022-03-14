@@ -4,6 +4,7 @@ import { fetchMovieDetails, fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
 import useSelector from '../../hooks/useSelector';
 import { Movie, MovieDetails } from '../../state/movies/moviesReducer';
+import { Query } from '../../state/types';
 import { FAVORITES } from '../../utils/constants';
 import Card from '../Card/Card';
 import Error from '../Error/Error';
@@ -12,7 +13,7 @@ import MovieModalContent from '../MovieModalContent/MovieModalContent';
 import Spinner from '../Spinner/Spinner';
 
 interface AppProps {
-  query: string;
+  query: Query;
 }
 
 /**
@@ -68,7 +69,7 @@ const App = ({ query }: AppProps) => {
   return (
     <>
       <AppHeading {...{ query, isViewingFavorites }} />
-      <MoviesList {...{ movies, handleOpenCard }} />
+      <MoviesList {...{ query, movies, handleOpenCard }} />
       <Modal isOpen={moviesIdxForModal > -1} closeModal={handleCloseModal}>
         <MovieModalContent
           movie={movies[moviesIdxForModal] as MovieDetails}
@@ -80,7 +81,7 @@ const App = ({ query }: AppProps) => {
 };
 
 interface AppHeadingProps {
-  query: string;
+  query: Query;
   isViewingFavorites: boolean;
 }
 
@@ -100,6 +101,7 @@ const AppHeading = ({ query, isViewingFavorites }: AppHeadingProps) => (
 );
 
 interface MoviesListProps {
+  query: Query;
   movies: (Movie | MovieDetails)[];
   handleOpenCard: (e: SyntheticEvent) => void;
 }
@@ -107,28 +109,78 @@ interface MoviesListProps {
 /**
  * Displays movie list, or if on '/favorites' and none are saved then show message
  */
-const MoviesList = ({ movies, handleOpenCard }: MoviesListProps) =>
-  movies.length ? (
-    <ul
-      className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'
-      data-cy='movie-list'
-    >
-      {movies.map((movie, i) => (
-        <Card
-          key={`${i}-${movie.Title}`}
-          handleOpenCard={handleOpenCard}
-          title={movie.Title}
-          isFavorite={!!movie.isFavorite}
-          year={movie.Year}
-          image={movie.Poster}
-          id={`${i}-${movie.imdbID}`}
-        />
-      ))}
-    </ul>
+const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
+  const totalResults = useSelector<number | undefined>(
+    state => state.movies[query].totalResults
+  );
+  const spinnerContainerRef = useRef<HTMLDivElement>(null);
+  const isFetching = useRef(false);
+  const hasMoreMoviesToFetch = totalResults && totalResults > movies.length;
+
+  const handleIntersect = (
+    entries: IntersectionObserverEntry[],
+    observer: IntersectionObserver
+  ) => {
+    // fetch more movies
+    if (
+      entries[0].isIntersecting &&
+      hasMoreMoviesToFetch &&
+      !isFetching.current
+    ) {
+      isFetching.current = true;
+      console.log('fetching more movies...');
+
+      // no more movies to fetch
+    } else if (!hasMoreMoviesToFetch) {
+      observer.unobserve(spinnerContainerRef.current as Element);
+    }
+  };
+
+  useEffect(() => {
+    if (hasMoreMoviesToFetch) {
+      const ref = spinnerContainerRef.current;
+      const observer = new IntersectionObserver(handleIntersect);
+      observer.observe(ref as Element);
+      return () => {
+        observer.unobserve(ref as Element);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    isFetching.current = false;
+  }, [movies.length]);
+
+  return movies.length ? (
+    <>
+      <ul
+        className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'
+        data-cy='movie-list'
+      >
+        {movies.map((movie, i) => (
+          <Card
+            key={`${i}-${movie.Title}`}
+            handleOpenCard={handleOpenCard}
+            title={movie.Title}
+            isFavorite={!!movie.isFavorite}
+            year={movie.Year}
+            image={movie.Poster}
+            id={`${i}-${movie.imdbID}`}
+          />
+        ))}
+      </ul>
+      {hasMoreMoviesToFetch && (
+        <div ref={spinnerContainerRef} className='mt-4'>
+          <Spinner />
+        </div>
+      )}
+    </>
   ) : (
     <p className='text-center font-bold text-cyan-700'>
       Pick some favorites! 🎉
     </p>
   );
+};
 
 export default App;

@@ -1,6 +1,7 @@
 import { ErrorState } from './error/errorReducer';
 import { MobileNavState } from './mobileNav/mobileNavReducer';
 import { MoviesState } from './movies/moviesReducer';
+import { FAVORITES } from '../utils/constants';
 
 export type Dispatch = (action: Thunk | Action, ...args: any[]) => void;
 
@@ -22,3 +23,15 @@ export interface RootState {
   movies: MoviesState;
   error: ErrorState;
 }
+
+export const NAV_ITEMS = [
+  'super',
+  'cool',
+  'nice',
+  'sweet',
+  'awesome',
+  'dude',
+  FAVORITES,
+] as const;
+
+export type Query = typeof NAV_ITEMS[number];

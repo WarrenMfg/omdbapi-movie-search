@@ -1,3 +1,4 @@
+import { Query } from '../types';
 import { MovieDetails, QueryResults } from './moviesReducer';
 
 export const SET_MOVIES = 'movies/setMany';
@@ -5,7 +6,7 @@ export const SET_MOVIE_WITH_DETAILS = 'movies/setOne';
 export const ADD_FAVORITE_MOVIE = 'movies/addFavorite';
 export const REMOVE_FAVORITE_MOVIE = 'movies/removeFavorite';
 
-export const setMovies = (query: string, data: QueryResults) => ({
+export const setMovies = (query: Query, data: QueryResults) => ({
   type: SET_MOVIES,
   payload: {
     query,
@@ -14,7 +15,7 @@ export const setMovies = (query: string, data: QueryResults) => ({
 });
 
 export const setMovieWithDetails = (
-  query: string,
+  query: Query,
   imdbID: string,
   data: Record<string, string>
 ) => ({

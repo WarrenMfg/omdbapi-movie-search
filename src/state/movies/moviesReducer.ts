@@ -1,7 +1,7 @@
 import { FAVORITES, MOVIE_DETAILS_PROPERTIES } from '../../utils/constants';
 import { getLocalStorage } from '../../utils/localStorage';
 import reduceObject from '../../utils/reduceObject';
-import { Action } from '../types';
+import { Action, Query } from '../types';
 import {
   ADD_FAVORITE_MOVIE,
   SET_MOVIE_WITH_DETAILS,
@@ -42,10 +42,18 @@ export interface MoviesState {
   [query: string]: QueryResults;
 }
 
-export const moviesInitialState: MoviesState = {
+export interface Favorites {
+  favorites: QueryResults;
+}
+
+const favorites: Favorites = {
   favorites: {
     results: getLocalStorage(FAVORITES, []),
   },
+};
+
+export const moviesInitialState: MoviesState = {
+  ...favorites,
 };
 
 const moviesReducer = (
