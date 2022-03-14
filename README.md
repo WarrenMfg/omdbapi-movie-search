@@ -80,6 +80,5 @@
 
 - "Remove all favorites" button
 - Filter favorites and search results
-- Infinite scrolling
 - Use fixtures for Cypress tests to limit API calls
 - Include Jest tests
