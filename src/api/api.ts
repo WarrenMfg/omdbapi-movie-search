@@ -14,20 +14,18 @@ const handleResponse = async (res: Response) => {
 
 // Thunk-like closure used to fetch movies for a route
 export const fetchMovies =
-  (query: Query): Thunk =>
+  (query: Query, page = 1): Thunk =>
   async (dispatch: DispatchForLoop) => {
     try {
       const res = await fetch(
-        `${baseUrl}?s=${query}&type=movie&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
+        `${baseUrl}?s=${query}&type=movie&page=${page}&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
       );
       const data = await handleResponse(res);
-      dispatch(setMovies(query, data));
+      dispatch(setMovies(query, data, page));
     } catch (error) {
       dispatch(setError((error as Error).message));
     }
   };
-
-// export const fetchMoreMovies = ()
 
 // Thunk-like closure used to fetch details for a single movie
 export const fetchMovieDetails =

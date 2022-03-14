@@ -44,6 +44,7 @@ export interface RawQueryResults {
 export interface QueryResults {
   results: (Movie | MovieDetails)[];
   totalResults?: number;
+  page?: number;
 }
 
 export interface MoviesState {
@@ -79,6 +80,7 @@ const moviesReducer = (
      * Set movies
      */
     case SET_MOVIES: {
+      const { query, data, page } = (action as SetMoviesAction).payload;
       // Create a lookup map based in imdbID to determine if any movies are a favorite
       const favoritesMap = state.favorites.results.reduce((acc, cur) => {
         acc[cur.imdbID] = cur;
@@ -86,22 +88,24 @@ const moviesReducer = (
       }, {} as Record<string, Movie | MovieDetails>);
 
       // Add additional details to search results
-      const results = (action as SetMoviesAction).payload.data.Search.map(
-        (movie: Movie) => ({
-          ...movie,
-          hasDetails: false,
-          isFavorite: !!favoritesMap[movie.imdbID],
-          query: action.payload.query,
-        })
-      ) as Movie[];
+      const newResults = data.Search.map((movie: Movie) => ({
+        ...movie,
+        hasDetails: false,
+        isFavorite: !!favoritesMap[movie.imdbID],
+        query,
+      })) as Movie[];
 
-      const totalResults = +action.payload.data.totalResults;
+      const current = state[query];
+      const results = current
+        ? [...current.results, ...newResults]
+        : newResults;
 
       return {
         ...state,
-        [action.payload.query]: {
-          totalResults,
+        [query]: {
+          totalResults: +data.totalResults,
           results,
+          page,
         },
       };
     }

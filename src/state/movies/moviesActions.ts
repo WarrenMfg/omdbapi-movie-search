@@ -6,25 +6,25 @@ export const SET_MOVIE_WITH_DETAILS = 'movies/setOne';
 export const ADD_FAVORITE_MOVIE = 'movies/addFavorite';
 export const REMOVE_FAVORITE_MOVIE = 'movies/removeFavorite';
 
-// const moviesTypes = [SET_MOVIES, SET_MOVIE_WITH_DETAILS,ADD_FAVORITE_MOVIE, REMOVE_FAVORITE_MOVIE] as const;
-// export type MoviesTypes = typeof moviesTypes[number];
-
 export interface SetMoviesAction {
   type: typeof SET_MOVIES;
   payload: {
     query: Query;
     data: RawQueryResults;
+    page: number;
   };
 }
 
 export const setMovies = (
   query: Query,
-  data: RawQueryResults
+  data: RawQueryResults,
+  page: number
 ): SetMoviesAction => ({
   type: SET_MOVIES,
   payload: {
     query,
     data,
+    page,
   },
 });
 

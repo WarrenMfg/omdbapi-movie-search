@@ -115,14 +115,19 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
   const totalResults = useSelector<number | undefined>(
     state => state.movies[query]?.totalResults
   );
+  const dispatch = useDispatch();
+  // Spinner for infinite scrolling
   const spinnerContainerRef = useRef<HTMLDivElement>(null);
   const isFetching = useRef(false);
+  const page = useRef(1);
+  // This will be `false` for '/favorites' because it doesn't have `totalResults`
   const hasMoreMoviesToFetch = totalResults && totalResults > movies.length;
 
   useEffect(() => {
     if (hasMoreMoviesToFetch) {
       const ref = spinnerContainerRef.current;
 
+      // IntersectionObserver callback
       const handleIntersect = (
         entries: IntersectionObserverEntry[],
         observer: IntersectionObserver
@@ -134,7 +139,7 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
           !isFetching.current
         ) {
           isFetching.current = true;
-          console.log('fetching more movies...');
+          dispatch(fetchMovies(query, ++page.current));
 
           // no more movies to fetch
         } else if (!hasMoreMoviesToFetch) {
