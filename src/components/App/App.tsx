@@ -156,6 +156,7 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Reset toggle when fetching is complete
   useEffect(() => {
     isFetching.current = false;
   }, [movies.length]);
