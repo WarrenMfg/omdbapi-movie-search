@@ -23,14 +23,14 @@ interface AppProps {
 const App = ({ query }: AppProps) => {
   // Movies array index for modal
   const [moviesIdxForModal, setMoviesIdxForModal] = useState(-1);
-  // Keep track of active card so we can focus on it later
+  // Keep track of active card so we can focus on close
   const cardRef = useRef<HTMLButtonElement | null>(null);
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.error.message);
   const movies = useSelector(state => state.movies[query]?.results);
   const isViewingFavorites = query === FAVORITES;
 
-  // If user is not on '/favorites' routes, then fetch movies
+  // If user is not on '/favorites' route, then fetch movies
   useEffect(() => {
     if (!movies && !isViewingFavorites) {
       dispatch(fetchMovies(query));
