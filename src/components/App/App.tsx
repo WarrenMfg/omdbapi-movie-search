@@ -60,7 +60,7 @@ const App = ({ query }: AppProps) => {
       dispatch(fetchMovieDetails(query, imdbID));
     }
 
-    // Keep track of active card so we can focus on it later
+    // Keep track of active card so we can focus on close
     cardRef.current = button;
     setMoviesIdxForModal(+idx);
   };
