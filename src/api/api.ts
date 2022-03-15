@@ -1,6 +1,7 @@
 import { setError } from '../state/error/errorActions';
 import { setMovieWithDetails, setMovies } from '../state/movies/moviesActions';
 import { DispatchForLoop, Query, Thunk } from '../state/types';
+import wait from '../utils/wait';
 
 const baseUrl = 'http://www.omdbapi.com/';
 
@@ -14,8 +15,11 @@ const handleResponse = async (res: Response) => {
 
 // Thunk-like closure used to fetch movies for a route
 export const fetchMovies =
-  (query: Query, page = 1): Thunk =>
+  (query: Query, page = 1, shouldDelay?: boolean): Thunk =>
   async (dispatch: DispatchForLoop) => {
+    // Make fast scrollers chill out
+    if (shouldDelay) await wait(750);
+
     try {
       const res = await fetch(
         `${baseUrl}?s=${query}&type=movie&page=${page}&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
