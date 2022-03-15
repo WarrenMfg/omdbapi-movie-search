@@ -1,4 +1,4 @@
-import { SyntheticEvent, useRef, useEffect } from 'react';
+import { SyntheticEvent, useRef, useEffect, useState } from 'react';
 
 import { fetchMovies } from '../../api/api';
 import useDispatch from '../../hooks/useDispatch';
@@ -24,13 +24,13 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
   const dispatch = useDispatch();
   // Spinner for infinite scrolling
   const spinnerContainerRef = useRef<HTMLDivElement>(null);
-  const isFetching = useRef(false);
+  const [isFetching, setIsFetching] = useState(false);
   // Intentionally, this will be `false` for '/favorites' because it doesn't have `totalResults`
   const hasMoreMoviesToFetch = totalResults && totalResults > movies.length;
 
   // Reset toggle when fetching is complete
   useEffect(() => {
-    isFetching.current = false;
+    setIsFetching(false);
   }, [movies.length]);
 
   useEffect(() => {
@@ -43,12 +43,8 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
         observer: IntersectionObserver
       ) => {
         // Fetch more movies
-        if (
-          entries[0].isIntersecting &&
-          hasMoreMoviesToFetch &&
-          !isFetching.current
-        ) {
-          isFetching.current = true;
+        if (entries[0].isIntersecting && hasMoreMoviesToFetch && !isFetching) {
+          setIsFetching(true);
           dispatch(fetchMovies(query, movies.length / 10 + 1, true));
 
           // No more movies to fetch
@@ -64,7 +60,7 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
         observer.unobserve(ref);
       };
     }
-  }, [query, movies, hasMoreMoviesToFetch, dispatch]);
+  }, [query, movies, hasMoreMoviesToFetch, dispatch, isFetching]);
 
   return movies.length ? (
     <>
@@ -72,7 +68,7 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
         className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'
         data-cy='movie-list'
         role='feed'
-        aria-busy={isFetching.current}
+        aria-busy={isFetching}
         aria-labelledby='app-heading'
       >
         {movies.map((movie, i) => (
