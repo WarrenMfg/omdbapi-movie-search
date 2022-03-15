@@ -36,7 +36,7 @@ const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
   // If still fetching, show spinner
   if (!movie?.hasDetails) {
     return (
-      <>
+      <div data-cy='modal-spinner'>
         <Spinner />
         <Button
           handleOnClick={closeModal}
@@ -45,7 +45,7 @@ const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
         >
           Close
         </Button>
-      </>
+      </div>
     );
   }
 
