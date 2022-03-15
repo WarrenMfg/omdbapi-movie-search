@@ -30,11 +30,10 @@ const Card = ({
   ariaPosInSet,
 }: CardProps) => {
   return (
-    <li
-      role='article'
+    <article
       {...(ariaSetSize && { 'aria-setsize': ariaSetSize })}
       aria-posinset={ariaPosInSet}
-      aria-labelledby='card-title'
+      aria-labelledby={`card-title-${ariaPosInSet}`}
       className='h-full w-full max-w-xs rounded-lg shadow-lg tl:max-w-none'
     >
       <Button
@@ -44,7 +43,10 @@ const Card = ({
         id={id}
       >
         <div className='relative'>
-          <h3 id='card-title' className='text-md mr-6 line-clamp-1'>
+          <h3
+            id={`card-title-${ariaPosInSet}`}
+            className='text-md mr-6 line-clamp-1'
+          >
             {title}
           </h3>
           <div className='absolute right-0 top-0.5'>
@@ -60,7 +62,7 @@ const Card = ({
           />
         </div>
       </Button>
-    </li>
+    </article>
   );
 };
 
