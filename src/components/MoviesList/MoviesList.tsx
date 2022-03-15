@@ -25,50 +25,50 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
   // Spinner for infinite scrolling
   const spinnerContainerRef = useRef<HTMLDivElement>(null);
   const isFetching = useRef(false);
-  // This will be `false` for '/favorites' because it doesn't have `totalResults`
+  // Intentionally, this will be `false` for '/favorites' because it doesn't have `totalResults`
   const hasMoreMoviesToFetch = totalResults && totalResults > movies.length;
-
-  useEffect(() => {
-    if (hasMoreMoviesToFetch) {
-      const ref = spinnerContainerRef.current;
-
-      // IntersectionObserver callback
-      const handleIntersect = (
-        entries: IntersectionObserverEntry[],
-        observer: IntersectionObserver
-      ) => {
-        // fetch more movies
-        if (
-          entries[0].isIntersecting &&
-          hasMoreMoviesToFetch &&
-          !isFetching.current
-        ) {
-          isFetching.current = true;
-          dispatch(fetchMovies(query, movies.length / 10 + 1));
-
-          // no more movies to fetch
-        } else if (!hasMoreMoviesToFetch) {
-          observer.unobserve(ref as Element);
-        }
-      };
-
-      const observer = new IntersectionObserver(handleIntersect);
-      observer.observe(ref as Element);
-
-      return () => {
-        observer.unobserve(ref as Element);
-      };
-    }
-  }, [query, movies, hasMoreMoviesToFetch, dispatch]);
 
   // Reset toggle when fetching is complete
   useEffect(() => {
     isFetching.current = false;
   }, [movies.length]);
 
+  useEffect(() => {
+    if (hasMoreMoviesToFetch) {
+      const ref = spinnerContainerRef.current as Element;
+
+      // IntersectionObserver callback
+      const handleIntersection = (
+        entries: IntersectionObserverEntry[],
+        observer: IntersectionObserver
+      ) => {
+        // Fetch more movies
+        if (
+          entries[0].isIntersecting &&
+          hasMoreMoviesToFetch &&
+          !isFetching.current
+        ) {
+          isFetching.current = true;
+          dispatch(fetchMovies(query, movies.length / 10 + 1, true));
+
+          // No more movies to fetch
+        } else if (!hasMoreMoviesToFetch) {
+          observer.unobserve(ref);
+        }
+      };
+
+      const observer = new IntersectionObserver(handleIntersection);
+      observer.observe(ref);
+
+      return () => {
+        observer.unobserve(ref);
+      };
+    }
+  }, [query, movies, hasMoreMoviesToFetch, dispatch]);
+
   return movies.length ? (
     <>
-      <ul
+      <section
         className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'
         data-cy='movie-list'
         role='feed'
@@ -88,7 +88,7 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
             ariaPosInSet={i + 1}
           />
         ))}
-      </ul>
+      </section>
       {hasMoreMoviesToFetch && (
         <div ref={spinnerContainerRef} className='mt-4'>
           <Spinner />
