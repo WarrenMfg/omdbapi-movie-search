@@ -98,7 +98,7 @@ const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
           id={MODAL_BACKGROUND}
           role='presentation'
           ref={modalRef}
-          data-cy={MODAL_BACKGROUND}
+          data-testid={MODAL_BACKGROUND}
         >
           <div
             role='dialog'

@@ -66,7 +66,7 @@ const MoviesList = ({ query, movies, handleOpenCard }: MoviesListProps) => {
     <>
       <section
         className='grid grid-cols-1 place-items-center gap-8 tl:grid-cols-2 lg:grid-cols-3'
-        data-cy='movie-list'
+        data-testid='movie-list'
         role='feed'
         aria-busy={isFetching}
         aria-labelledby='app-heading'
