@@ -27,6 +27,8 @@ const Header = () => {
         <Button
           handleOnClick={handleOnClick}
           ariaLabel={`${isMobileNavOpen ? 'Close' : 'Open'} mobile navigation`}
+          ariaControls='main-menu'
+          ariaExpanded={isMobileNavOpen}
         >
           <HamburgerIcon isMobileNavOpen={isMobileNavOpen} />
         </Button>

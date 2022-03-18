@@ -5,6 +5,8 @@ interface ButtonProps {
   id?: string;
   className?: string;
   ariaLabel?: string;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
   children: ReactNode;
 }
 
@@ -15,6 +17,8 @@ const Button = ({
   handleOnClick,
   className,
   ariaLabel,
+  ariaControls,
+  ariaExpanded,
   children,
   id,
 }: ButtonProps) => {
@@ -24,6 +28,8 @@ const Button = ({
       {...(id && { id })}
       {...(className && { className })}
       {...(ariaLabel && { 'aria-label': ariaLabel })}
+      {...(ariaControls && { 'aria-controls': ariaControls })}
+      {...(ariaExpanded && { 'aria-expanded': ariaExpanded })}
     >
       {children}
     </button>
