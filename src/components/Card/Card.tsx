@@ -35,7 +35,6 @@ const Card = ({
       aria-posinset={ariaPosInSet}
       aria-labelledby={`card-title-${ariaPosInSet}`}
       className='h-full w-full max-w-xs rounded-lg shadow-lg tl:max-w-none'
-      data-testid='card'
     >
       <Button
         className='h-full w-full rounded-lg bg-white p-4 text-left font-bold text-cyan-700'

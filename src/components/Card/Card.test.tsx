@@ -15,19 +15,21 @@ const cardProps = {
 describe('Card', () => {
   it('should render', () => {
     render(<Card {...cardProps} />);
-    expect(screen.getByTestId('card')).toBeVisible();
+    expect(screen.getByRole('article')).toBeVisible();
   });
 
   it('should contain a button and handle a click', () => {
     render(<Card {...cardProps} />);
-    screen.getByText(cardProps.title).click();
+    screen.getByRole('button').click();
     expect(cardProps.handleOpenCard).toHaveBeenCalled();
   });
 
   it('should display the title and year', () => {
     render(<Card {...cardProps} />);
-    expect(screen.getByText(cardProps.title)).toBeVisible();
-    expect(screen.getByText(cardProps.year)).toBeVisible();
+    expect(
+      screen.getByRole('heading', { name: cardProps.title, level: 3 })
+    ).toBeVisible();
+    expect(screen.getByText(cardProps.year, { selector: 'p' })).toBeVisible();
   });
 
   it('should display an image', () => {

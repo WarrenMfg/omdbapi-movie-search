@@ -26,7 +26,7 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     );
 
-    expect(screen.getByTestId('error')).toBeVisible();
+    expect(screen.getByRole('alert')).toBeVisible();
 
     window.removeEventListener('error', preventDefault);
   });

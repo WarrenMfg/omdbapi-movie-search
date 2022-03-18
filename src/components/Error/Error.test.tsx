@@ -7,12 +7,12 @@ const errorMessage = 'Error message';
 describe('Error', () => {
   it('should render', () => {
     render(<Error {...{ errorMessage }} />);
-    expect(screen.getByTestId('error')).toBeVisible();
+    expect(screen.getByRole('alert')).toBeVisible();
   });
 
   it('should have a style button', () => {
     render(<Error {...{ errorMessage }} />);
-    expect(screen.getByText('Refresh')).toHaveClass(...BUTTON_STYLE.split(' '));
+    expect(screen.getByRole('button')).toHaveClass(...BUTTON_STYLE.split(' '));
   });
 
   it('should reload on button click', () => {
@@ -21,7 +21,7 @@ describe('Error', () => {
     window.location = { ...window.location, reload: jest.fn() };
 
     render(<Error {...{ errorMessage }} />);
-    screen.getByText('Refresh').click();
+    screen.getByRole('button').click();
 
     expect(window.location.reload).toHaveBeenCalled();
   });

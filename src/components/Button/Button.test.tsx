@@ -6,7 +6,7 @@ describe('Button', () => {
 
   it('should render', () => {
     render(<Button>Hello</Button>);
-    expect(screen.getByText(hello)).toBeVisible();
+    expect(screen.getByRole('button')).toHaveTextContent(hello);
   });
 
   it('should accept an aria-label, id, and classes', () => {
@@ -27,7 +27,7 @@ describe('Button', () => {
   it('should handle clicks', () => {
     const handleOnClick = jest.fn();
     render(<Button handleOnClick={handleOnClick}>Hello</Button>);
-    screen.getByText(hello).click();
+    screen.getByRole('button').click();
     expect(handleOnClick).toHaveBeenCalled();
   });
 });
