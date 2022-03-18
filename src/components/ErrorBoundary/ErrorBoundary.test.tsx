@@ -1,13 +1,20 @@
 import { render, screen } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import ErrorBoundary from './ErrorBoundary';
 
 describe('ErrorBoundary', () => {
+  let container: HTMLElement;
+
+  afterEach(async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
   it('should render children', () => {
-    render(
+    container = render(
       <ErrorBoundary>
         <p>Hello</p>
       </ErrorBoundary>
-    );
+    ).container;
     expect(screen.getByText('Hello')).toBeVisible();
   });
 
@@ -20,11 +27,11 @@ describe('ErrorBoundary', () => {
       throw new Error();
     };
 
-    render(
+    container = render(
       <ErrorBoundary>
         <ThrowError />
       </ErrorBoundary>
-    );
+    ).container;
 
     expect(screen.getByRole('alert')).toBeVisible();
 

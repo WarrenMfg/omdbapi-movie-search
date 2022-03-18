@@ -1,23 +1,29 @@
 import { render, screen } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import Button from './Button';
 
 describe('Button', () => {
   const hello = /hello/i;
+  let container: HTMLElement;
+
+  afterEach(async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
 
   it('should render', () => {
-    render(<Button>Hello</Button>);
+    container = render(<Button>Hello</Button>).container;
     expect(screen.getByRole('button')).toHaveTextContent(hello);
   });
 
-  it('should accept an aria-label, id, and classes', () => {
+  it('should accept an aria-label, id, and classes', async () => {
     const ariaLabel = 'aria label';
     const id = 'id';
     const className = 'className';
-    render(
+    container = render(
       <Button ariaLabel={ariaLabel} id={id} className={className}>
         Hello
       </Button>
-    );
+    ).container;
     const el = screen.getByText(hello);
     expect(el).toHaveAttribute('aria-label', ariaLabel);
     expect(el).toHaveAttribute('id', id);
@@ -26,7 +32,9 @@ describe('Button', () => {
 
   it('should handle clicks', () => {
     const handleOnClick = jest.fn();
-    render(<Button handleOnClick={handleOnClick}>Hello</Button>);
+    container = render(
+      <Button handleOnClick={handleOnClick}>Hello</Button>
+    ).container;
     screen.getByRole('button').click();
     expect(handleOnClick).toHaveBeenCalled();
   });

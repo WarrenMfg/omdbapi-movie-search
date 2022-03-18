@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import Card from './Card';
 
 const cardProps = {
@@ -13,19 +14,25 @@ const cardProps = {
 };
 
 describe('Card', () => {
+  let container: HTMLElement;
+
+  afterEach(async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
   it('should render', () => {
-    render(<Card {...cardProps} />);
+    container = render(<Card {...cardProps} />).container;
     expect(screen.getByRole('article')).toBeVisible();
   });
 
   it('should contain a button and handle a click', () => {
-    render(<Card {...cardProps} />);
+    container = render(<Card {...cardProps} />).container;
     screen.getByRole('button').click();
     expect(cardProps.handleOpenCard).toHaveBeenCalled();
   });
 
   it('should display the title and year', () => {
-    render(<Card {...cardProps} />);
+    container = render(<Card {...cardProps} />).container;
     expect(
       screen.getByRole('heading', { name: cardProps.title, level: 3 })
     ).toBeVisible();
@@ -33,7 +40,7 @@ describe('Card', () => {
   });
 
   it('should display an image', () => {
-    render(<Card {...cardProps} />);
+    container = render(<Card {...cardProps} />).container;
     const altRegEx = /.*title.*/i;
     expect(screen.getByAltText(altRegEx)).toHaveAttribute(
       'alt',
