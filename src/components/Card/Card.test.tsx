@@ -15,7 +15,7 @@ const cardProps = {
 describe('Card', () => {
   it('should render', () => {
     render(<Card {...cardProps} />);
-    expect(screen.getByTestId('card')).toBeInTheDocument();
+    expect(screen.getByTestId('card')).toBeVisible();
   });
 
   it('should contain a button and handle a click', () => {
