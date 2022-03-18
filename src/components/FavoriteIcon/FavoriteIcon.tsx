@@ -16,6 +16,7 @@ const FavoriteIcon = ({ isFavorite }: FavoriteIconProps) => {
       viewBox='0 0 24 24'
       stroke='currentColor'
       strokeWidth={2}
+      role='presentation'
     >
       <path
         strokeLinecap='round'
