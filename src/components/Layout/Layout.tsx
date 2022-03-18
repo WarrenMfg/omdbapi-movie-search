@@ -34,6 +34,7 @@ const Layout = ({ children }: LayoutProps) => {
         <div className='relative grid grow grid-cols-12'>
           {/* mobile */}
           <Navigation
+            id='main-menu'
             tabIndex={isMobileNavOpen ? 0 : -1}
             handleOnNavigate={handleOnNavigate}
             classNames={cn(

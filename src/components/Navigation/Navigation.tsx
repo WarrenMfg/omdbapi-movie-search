@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { NAV_ITEMS } from '../../state/types';
 
 interface NavigationProps {
+  id?: string;
   classNames?: string;
   handleOnNavigate?: () => void;
   tabIndex?: number;
@@ -14,6 +15,7 @@ interface NavigationProps {
  * Mobile and desktop navigation component
  */
 const Navigation = ({
+  id,
   classNames,
   handleOnNavigate,
   tabIndex,
@@ -28,6 +30,7 @@ const Navigation = ({
 
   return (
     <nav
+      {...(id && { id })}
       className={cn('z-10 h-full bg-sky-900 text-cyan-100', classNames)}
       {...(dataAttr && { [dataAttr.key]: dataAttr.value })}
     >
