@@ -15,7 +15,7 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toHaveTextContent(hello);
   });
 
-  it('should accept an aria-label, id, and classes', async () => {
+  it('should accept an aria-label, id, and classes', () => {
     const ariaLabel = 'aria label';
     const id = 'id';
     const className = 'className';
