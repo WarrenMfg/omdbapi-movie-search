@@ -9,6 +9,7 @@ interface NavigationProps {
   handleOnNavigate?: () => void;
   tabIndex?: number;
   dataAttr?: Record<string, string>;
+  ariaLabelledBy?: string;
 }
 
 /**
@@ -20,6 +21,7 @@ const Navigation = ({
   handleOnNavigate,
   tabIndex,
   dataAttr,
+  ariaLabelledBy,
 }: NavigationProps) => {
   const location = useLocation();
 
@@ -30,8 +32,9 @@ const Navigation = ({
 
   return (
     <nav
-      {...(id && { id })}
       className={cn('z-10 h-full bg-sky-900 text-cyan-100', classNames)}
+      {...(id && { id })}
+      {...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy })}
       {...(dataAttr && { [dataAttr.key]: dataAttr.value })}
     >
       <ul className='sticky top-11'>
