@@ -29,7 +29,9 @@ const Button = ({
       {...(className && { className })}
       {...(ariaLabel && { 'aria-label': ariaLabel })}
       {...(ariaControls && { 'aria-controls': ariaControls })}
-      {...(ariaExpanded && { 'aria-expanded': ariaExpanded })}
+      {...(typeof ariaExpanded === 'boolean' && {
+        'aria-expanded': ariaExpanded,
+      })}
     >
       {children}
     </button>
