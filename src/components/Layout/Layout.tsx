@@ -5,6 +5,7 @@ import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
 import {
   CLOSE_MOBILE_NAV,
+  OPEN_MOBILE_NAV,
   setMobileNav,
 } from '../../state/mobileNav/mobileNavActions';
 import useDispatch from '../../hooks/useDispatch';
@@ -22,6 +23,11 @@ const Layout = ({ children }: LayoutProps) => {
   useBodyLock(isMobileNavOpen);
   const dispatch = useDispatch();
 
+  const handleOnMobileNavButtonClick = () =>
+    dispatch(
+      setMobileNav(isMobileNavOpen ? CLOSE_MOBILE_NAV : OPEN_MOBILE_NAV)
+    );
+
   const handleOnNavigate = useCallback(
     () => dispatch(setMobileNav(CLOSE_MOBILE_NAV)),
     [dispatch]
@@ -30,11 +36,15 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className='bg-white'>
       <div className='m-auto flex min-h-screen max-w-7xl flex-col drop-shadow-2xl'>
-        <Header />
+        <Header
+          handleOnClick={handleOnMobileNavButtonClick}
+          isMobileNavOpen={isMobileNavOpen}
+        />
         <div className='relative grid grow grid-cols-12'>
           {/* mobile */}
           <Navigation
-            id='main-menu'
+            id='mobile-nav'
+            ariaLabelledBy='mobile-nav-button'
             tabIndex={isMobileNavOpen ? 0 : -1}
             handleOnNavigate={handleOnNavigate}
             classNames={cn(
