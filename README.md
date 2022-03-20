@@ -94,4 +94,3 @@
 
 - "Remove all favorites" button
 - Filter favorites and search results
-- Use fixtures for Cypress tests to limit API calls
