@@ -4,8 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import GlobalStore from '../GlobalStore/GlobalStore';
 import Layout from '../Layout/Layout';
 
-import '../../index.css';
-
 describe('Header', () => {
   const hello = /hello/i;
   let container: HTMLElement;
