@@ -76,9 +76,14 @@
 
 <br/>
 
+### Jest Tests
+
+<img src='./readme/jest-tests.png' alt='Jest tests' style='margin: auto; display: block;'>
+
+<br/>
+
 ## Roadmap
 
 - "Remove all favorites" button
 - Filter favorites and search results
 - Use fixtures for Cypress tests to limit API calls
-- Include Jest tests
