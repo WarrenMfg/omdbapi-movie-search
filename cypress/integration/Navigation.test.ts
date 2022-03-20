@@ -1,4 +1,4 @@
-import { cy, it, describe, expect } from 'local-cypress';
+import { cy, it, describe, expect, beforeEach } from 'local-cypress';
 import {
   DESKTOP_NAV,
   IPHONE,
@@ -11,8 +11,13 @@ import { FAVORITES } from '../../src/utils/constants';
 import { NAV_ITEMS } from '../../src/state/types';
 
 describe('Navigation', () => {
+  beforeEach(() => {
+    cy.intercept('GET', 'http://www.omdbapi.com/?s=*', {
+      fixture: 'movies.json',
+    });
+  });
+
   describe('Navigation on mobile', IPHONE, () => {
-    //
     NAV_ITEMS.forEach(navItem => {
       it(navItem, () => {
         cy.visit(`/${navItem}`);

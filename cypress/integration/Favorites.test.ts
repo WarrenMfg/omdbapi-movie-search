@@ -21,6 +21,13 @@ describe('Favorites', () => {
       screenSize.device,
       () => {
         beforeEach(() => {
+          cy.intercept('GET', 'http://www.omdbapi.com/?s=*', {
+            fixture: 'movies.json',
+          });
+          cy.intercept('GET', 'http://www.omdbapi.com/?i=*', {
+            fixture: 'movie.json',
+          });
+
           cy.visit('/super');
           cy.clearLocalStorage();
           cy.get(`${MOVIE_LIST} button`).as('cards');
