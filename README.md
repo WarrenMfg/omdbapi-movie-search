@@ -25,12 +25,20 @@
     - `npm install`
     - `npm start`
 
-- Run the tests
+- Run the Cypress tests
+
   - Execute the steps above to run the project
   - From another terminal window, within the project's root directory, issue the following terminal command
     - `npm run test:cy`
   - When the Cypress test runner appears, click on the play button
   - A version of Chromium will appear and the tests will start
+
+- Run the Jest tests
+
+  - From the project's root directory, issue the following terminal command
+    - `npm test`
+    - Follow the terminal options to run all tests or filter to run selected tests
+  - _Note:_ you do not have to "Run the project" first in order to run Jest tests
 
 ## Mockups
 
