@@ -88,14 +88,14 @@ const MovieModalContent = ({ movie, closeModal }: MovieModalContentProps) => {
           ariaLabel={`${favoriteStatus} ${movie.Title}`}
           className={cn(BUTTON_STYLE, 'w-1/2')}
         >
-          <span>{favoriteStatus}</span>
+          {favoriteStatus}
         </Button>
         <Button
           handleOnClick={closeModal}
           ariaLabel={`Close modal for ${movie.Title}`}
           className={cn(BUTTON_STYLE, 'w-1/2')}
         >
-          <span>Close</span>
+          Close
         </Button>
       </div>
     </>
