@@ -1,8 +1,6 @@
-# True Link Frontend Coding Interview
+# Movie Search
 
-## Overview
-
-**Objective:** Build a responsive movie search page with results powered by [OMDb API](http://www.omdbapi.com/)
+## Objectives
 
 - Demonstrate the ability to create
   - Frontend web experiences that reproduce design prototypes
