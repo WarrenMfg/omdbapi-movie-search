@@ -57,7 +57,7 @@
     ]
   },
   "devDependencies": {
-    "@axe-core/react": "^4.4.1",
+    "@axe-core/react": "4.4.0",
     "@tailwindcss/line-clamp": "^0.3.1",
     "autoprefixer": "^10.4.2",
     "cypress": "^9.5.1",
